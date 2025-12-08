@@ -1,0 +1,904 @@
+[
+    {
+        "id": "settings-flow",
+        "type": "tab",
+        "label": "Settings",
+        "disabled": false,
+        "info": "Reflink OS Settings Module - Network, System, Modbus, BACnet, RS485, Logging, Auth"
+    },
+    {
+        "id": "settings-page-network",
+        "type": "ui-page",
+        "name": "Nätverk",
+        "ui": "45086322eb4ebcac",
+        "path": "/network",
+        "icon": "mdi-lan",
+        "layout": "grid",
+        "theme": "c41cf9962fc40517",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 10,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "settings-page-system",
+        "type": "ui-page",
+        "name": "System",
+        "ui": "45086322eb4ebcac",
+        "path": "/system",
+        "icon": "mdi-cog",
+        "layout": "grid",
+        "theme": "c41cf9962fc40517",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 11,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "settings-page-protocols",
+        "type": "ui-page",
+        "name": "Protokoll",
+        "ui": "45086322eb4ebcac",
+        "path": "/protocols",
+        "icon": "mdi-protocol",
+        "layout": "grid",
+        "theme": "c41cf9962fc40517",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 12,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "settings-page-security",
+        "type": "ui-page",
+        "name": "Säkerhet",
+        "ui": "45086322eb4ebcac",
+        "path": "/security",
+        "icon": "mdi-shield-lock",
+        "layout": "grid",
+        "theme": "c41cf9962fc40517",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 13,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "settings-group-interfaces",
+        "type": "ui-group",
+        "name": "Nätverksinterface",
+        "page": "settings-page-network",
+        "width": "12",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "settings-group-active",
+        "type": "ui-group",
+        "name": "Aktivt Interface",
+        "page": "settings-page-network",
+        "width": "4",
+        "height": "1",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "settings-group-pingtest",
+        "type": "ui-group",
+        "name": "Ping Test",
+        "page": "settings-page-network",
+        "width": "4",
+        "height": "1",
+        "order": 3,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "settings-group-failover",
+        "type": "ui-group",
+        "name": "Failover Prioritet",
+        "page": "settings-page-network",
+        "width": "4",
+        "height": "1",
+        "order": 4,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "settings-group-sysinfo",
+        "type": "ui-group",
+        "name": "Systeminformation",
+        "page": "settings-page-system",
+        "width": "6",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "settings-group-service",
+        "type": "ui-group",
+        "name": "Service Mode",
+        "page": "settings-page-system",
+        "width": "6",
+        "height": "1",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "settings-group-logging",
+        "type": "ui-group",
+        "name": "Loggning",
+        "page": "settings-page-system",
+        "width": "6",
+        "height": "1",
+        "order": 3,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "settings-group-configmgmt",
+        "type": "ui-group",
+        "name": "Konfigurationshantering",
+        "page": "settings-page-system",
+        "width": "6",
+        "height": "1",
+        "order": 4,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "settings-group-modbus",
+        "type": "ui-group",
+        "name": "Modbus TCP",
+        "page": "settings-page-protocols",
+        "width": "6",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "settings-group-bacnet",
+        "type": "ui-group",
+        "name": "BACnet/IP",
+        "page": "settings-page-protocols",
+        "width": "6",
+        "height": "1",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "settings-group-rs485",
+        "type": "ui-group",
+        "name": "RS485 / Modbus RTU",
+        "page": "settings-page-protocols",
+        "width": "12",
+        "height": "1",
+        "order": 3,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "settings-group-users",
+        "type": "ui-group",
+        "name": "Användare",
+        "page": "settings-page-security",
+        "width": "6",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "settings-group-apikeys",
+        "type": "ui-group",
+        "name": "API-nycklar",
+        "page": "settings-page-security",
+        "width": "6",
+        "height": "1",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "network-interfaces-component",
+        "type": "ui-template",
+        "z": "settings-flow",
+        "group": "settings-group-interfaces",
+        "page": "",
+        "ui": "",
+        "name": "Network Interfaces",
+        "order": 1,
+        "width": "12",
+        "height": "8",
+        "head": "",
+        "format": "<template>\n  <div class=\"network-interfaces\">\n    <v-row>\n      <v-col cols=\"12\" md=\"4\" v-for=\"(iface, name) in interfaces\" :key=\"name\">\n        <v-card class=\"interface-card\" :class=\"{ 'interface-up': iface.status === 'UP' }\">\n          <v-card-title class=\"d-flex align-center\">\n            <v-icon :color=\"iface.status === 'UP' ? '#4CAF50' : '#F44336'\" class=\"mr-2\">\n              {{ iface.status === 'UP' ? 'mdi-check-circle' : 'mdi-close-circle' }}\n            </v-icon>\n            <span>{{ name }}</span>\n            <v-chip class=\"ml-auto\" :color=\"iface.status === 'UP' ? 'success' : 'error'\" size=\"small\">\n              {{ iface.status }}\n            </v-chip>\n          </v-card-title>\n          \n          <v-card-text>\n            <v-list density=\"compact\" class=\"bg-transparent\">\n              <v-list-item>\n                <template v-slot:prepend><v-icon size=\"small\">mdi-ip</v-icon></template>\n                <v-list-item-title>IP-adress</v-list-item-title>\n                <v-list-item-subtitle>{{ iface.ipAddress || 'Ingen' }}</v-list-item-subtitle>\n              </v-list-item>\n              \n              <v-list-item>\n                <template v-slot:prepend><v-icon size=\"small\">mdi-slash-forward-box</v-icon></template>\n                <v-list-item-title>Prefix / Mask</v-list-item-title>\n                <v-list-item-subtitle>{{ iface.prefix ? '/' + iface.prefix + ' (' + iface.netmask + ')' : '-' }}</v-list-item-subtitle>\n              </v-list-item>\n              \n              <v-list-item>\n                <template v-slot:prepend><v-icon size=\"small\">mdi-router</v-icon></template>\n                <v-list-item-title>Gateway</v-list-item-title>\n                <v-list-item-subtitle>{{ iface.gateway || '-' }}</v-list-item-subtitle>\n              </v-list-item>\n              \n              <v-list-item>\n                <template v-slot:prepend><v-icon size=\"small\">mdi-dns</v-icon></template>\n                <v-list-item-title>DNS</v-list-item-title>\n                <v-list-item-subtitle>{{ iface.dns && iface.dns.length ? iface.dns.join(', ') : '-' }}</v-list-item-subtitle>\n              </v-list-item>\n              \n              <v-list-item>\n                <template v-slot:prepend><v-icon size=\"small\">mdi-ethernet</v-icon></template>\n                <v-list-item-title>MAC</v-list-item-title>\n                <v-list-item-subtitle>{{ iface.mac || '-' }}</v-list-item-subtitle>\n              </v-list-item>\n              \n              <v-list-item>\n                <template v-slot:prepend><v-icon size=\"small\">mdi-speedometer</v-icon></template>\n                <v-list-item-title>Hastighet</v-list-item-title>\n                <v-list-item-subtitle>{{ iface.linkSpeed || '-' }}</v-list-item-subtitle>\n              </v-list-item>\n              \n              <v-list-item>\n                <template v-slot:prepend><v-icon size=\"small\">mdi-cog</v-icon></template>\n                <v-list-item-title>Konfiguration</v-list-item-title>\n                <v-list-item-subtitle>\n                  <v-chip size=\"x-small\" :color=\"iface.dhcp ? 'primary' : 'secondary'\">\n                    {{ iface.dhcp ? 'DHCP' : 'Statisk IP' }}\n                  </v-chip>\n                </v-list-item-subtitle>\n              </v-list-item>\n            </v-list>\n          </v-card-text>\n          \n          <v-card-actions>\n            <v-btn color=\"primary\" variant=\"tonal\" size=\"small\" @click=\"openConfig(name)\">\n              <v-icon left size=\"small\">mdi-pencil</v-icon> Konfigurera\n            </v-btn>\n          </v-card-actions>\n        </v-card>\n      </v-col>\n    </v-row>\n    \n    <!-- Config Dialog -->\n    <v-dialog v-model=\"configDialog\" max-width=\"500\">\n      <v-card>\n        <v-card-title>Konfigurera {{ selectedInterface }}</v-card-title>\n        <v-card-text>\n          <v-switch v-model=\"configForm.dhcp\" label=\"Använd DHCP\" color=\"primary\"></v-switch>\n          \n          <template v-if=\"!configForm.dhcp\">\n            <v-text-field v-model=\"configForm.ipAddress\" label=\"IP-adress\" placeholder=\"192.168.1.100\"></v-text-field>\n            <v-text-field v-model=\"configForm.prefix\" label=\"Prefix (CIDR)\" placeholder=\"24\" type=\"number\"></v-text-field>\n            <v-text-field v-model=\"configForm.gateway\" label=\"Gateway\" placeholder=\"192.168.1.1\"></v-text-field>\n            <v-text-field v-model=\"configForm.dns1\" label=\"DNS 1\" placeholder=\"8.8.8.8\"></v-text-field>\n            <v-text-field v-model=\"configForm.dns2\" label=\"DNS 2\" placeholder=\"8.8.4.4\"></v-text-field>\n          </template>\n        </v-card-text>\n        <v-card-actions>\n          <v-spacer></v-spacer>\n          <v-btn @click=\"configDialog = false\">Avbryt</v-btn>\n          <v-btn color=\"primary\" @click=\"saveConfig\" :loading=\"saving\">Spara</v-btn>\n        </v-card-actions>\n      </v-card>\n    </v-dialog>\n    \n    <v-btn color=\"primary\" class=\"mt-4\" @click=\"refresh\" :loading=\"loading\">\n      <v-icon left>mdi-refresh</v-icon> Uppdatera\n    </v-btn>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      interfaces: {},\n      loading: false,\n      saving: false,\n      configDialog: false,\n      selectedInterface: '',\n      configForm: {\n        dhcp: true,\n        ipAddress: '',\n        prefix: 24,\n        gateway: '',\n        dns1: '',\n        dns2: ''\n      }\n    }\n  },\n  mounted() {\n    this.refresh();\n    // Auto-refresh every 30 seconds\n    this.refreshInterval = setInterval(() => this.refresh(), 30000);\n  },\n  beforeUnmount() {\n    if (this.refreshInterval) clearInterval(this.refreshInterval);\n  },\n  methods: {\n    async refresh() {\n      this.loading = true;\n      try {\n        const res = await fetch('/api/network/interfaces');\n        const data = await res.json();\n        if (data.success) {\n          this.interfaces = data.data;\n        }\n      } catch (e) {\n        console.error('Failed to fetch interfaces:', e);\n      }\n      this.loading = false;\n    },\n    openConfig(name) {\n      this.selectedInterface = name;\n      const iface = this.interfaces[name];\n      this.configForm = {\n        dhcp: iface.dhcp !== false,\n        ipAddress: iface.ipAddress || '',\n        prefix: iface.prefix || 24,\n        gateway: iface.gateway || '',\n        dns1: iface.dns?.[0] || '',\n        dns2: iface.dns?.[1] || ''\n      };\n      this.configDialog = true;\n    },\n    async saveConfig() {\n      this.saving = true;\n      try {\n        const res = await fetch(`/api/network/interface/${this.selectedInterface}/configure`, {\n          method: 'POST',\n          headers: { 'Content-Type': 'application/json' },\n          body: JSON.stringify(this.configForm)\n        });\n        const data = await res.json();\n        if (data.success) {\n          this.configDialog = false;\n          setTimeout(() => this.refresh(), 2000);\n        }\n      } catch (e) {\n        console.error('Failed to save config:', e);\n      }\n      this.saving = false;\n    }\n  }\n}\n</script>\n\n<style scoped>\n.network-interfaces {\n  padding: 16px;\n}\n.interface-card {\n  background: rgba(0, 20, 40, 0.7) !important;\n  border: 1px solid rgba(27, 191, 255, 0.3);\n  border-radius: 12px;\n  transition: all 0.3s ease;\n}\n.interface-card.interface-up {\n  border-color: rgba(76, 175, 80, 0.5);\n}\n.interface-card:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);\n}\n.v-list-item-title {\n  font-size: 12px !important;\n  color: rgba(255,255,255,0.7);\n}\n.v-list-item-subtitle {\n  font-size: 14px !important;\n  color: #ffffff !important;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 300,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "active-interface-component",
+        "type": "ui-template",
+        "z": "settings-flow",
+        "group": "settings-group-active",
+        "page": "",
+        "ui": "",
+        "name": "Active Interface",
+        "order": 1,
+        "width": "4",
+        "height": "3",
+        "head": "",
+        "format": "<template>\n  <div class=\"active-interface\">\n    <v-card class=\"status-card\">\n      <v-card-text class=\"text-center\">\n        <v-icon :color=\"active.interface ? '#4CAF50' : '#F44336'\" size=\"64\">\n          {{ active.interface ? 'mdi-check-network' : 'mdi-network-off' }}\n        </v-icon>\n        <h2 class=\"mt-3\">{{ active.interface || 'Ingen anslutning' }}</h2>\n        <p class=\"text-caption\">{{ active.status }}</p>\n        <p v-if=\"active.latency\" class=\"text-caption\">Latens: {{ active.latency }} ms</p>\n      </v-card-text>\n    </v-card>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      active: { interface: null, status: 'Laddar...', latency: null }\n    }\n  },\n  mounted() {\n    this.refresh();\n    this.interval = setInterval(() => this.refresh(), 10000);\n  },\n  beforeUnmount() {\n    if (this.interval) clearInterval(this.interval);\n  },\n  methods: {\n    async refresh() {\n      try {\n        const res = await fetch('/api/network/active');\n        const data = await res.json();\n        if (data.success) {\n          this.active = data.data;\n        }\n      } catch (e) {\n        this.active = { interface: null, status: 'Fel', latency: null };\n      }\n    }\n  }\n}\n</script>\n\n<style scoped>\n.status-card {\n  background: rgba(0, 20, 40, 0.7) !important;\n  border: 1px solid rgba(27, 191, 255, 0.3);\n  border-radius: 12px;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 300,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ping-test-component",
+        "type": "ui-template",
+        "z": "settings-flow",
+        "group": "settings-group-pingtest",
+        "page": "",
+        "ui": "",
+        "name": "Ping Test",
+        "order": 1,
+        "width": "4",
+        "height": "4",
+        "head": "",
+        "format": "<template>\n  <div class=\"ping-test\">\n    <v-card class=\"ping-card\">\n      <v-card-text>\n        <v-text-field v-model=\"host\" label=\"Host / IP\" placeholder=\"8.8.8.8 eller reflink.systems\" density=\"compact\" clearable></v-text-field>\n        <v-btn color=\"primary\" block @click=\"runPing\" :loading=\"loading\" :disabled=\"!host\">\n          <v-icon left>mdi-access-point-network</v-icon> Ping\n        </v-btn>\n        \n        <v-alert v-if=\"result\" :type=\"result.success ? 'success' : 'error'\" class=\"mt-3\" density=\"compact\">\n          <div v-if=\"result.success\">\n            <strong>{{ result.host }}</strong><br>\n            Skickade: {{ result.packets?.transmitted }}<br>\n            Mottagna: {{ result.packets?.received }}<br>\n            Paketförlust: {{ result.packets?.loss }}%<br>\n            <span v-if=\"result.rtt?.avg\">Svarstid (avg): {{ result.rtt.avg }} ms</span>\n          </div>\n          <div v-else>\n            {{ result.error || 'Host unreachable' }}\n          </div>\n        </v-alert>\n      </v-card-text>\n    </v-card>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      host: '',\n      loading: false,\n      result: null\n    }\n  },\n  methods: {\n    async runPing() {\n      this.loading = true;\n      this.result = null;\n      try {\n        const res = await fetch('/api/network/ping', {\n          method: 'POST',\n          headers: { 'Content-Type': 'application/json' },\n          body: JSON.stringify({ host: this.host, count: 3 })\n        });\n        const data = await res.json();\n        this.result = data.data;\n      } catch (e) {\n        this.result = { success: false, error: e.message };\n      }\n      this.loading = false;\n    }\n  }\n}\n</script>\n\n<style scoped>\n.ping-card {\n  background: rgba(0, 20, 40, 0.7) !important;\n  border: 1px solid rgba(27, 191, 255, 0.3);\n  border-radius: 12px;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 300,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "system-info-component",
+        "type": "ui-template",
+        "z": "settings-flow",
+        "group": "settings-group-sysinfo",
+        "page": "",
+        "ui": "",
+        "name": "System Info",
+        "order": 1,
+        "width": "6",
+        "height": "8",
+        "head": "",
+        "format": "<template>\n  <div class=\"system-info\">\n    <v-row>\n      <v-col cols=\"12\" md=\"6\">\n        <v-card class=\"info-card\">\n          <v-card-title><v-icon class=\"mr-2\">mdi-server</v-icon> System</v-card-title>\n          <v-card-text>\n            <v-list density=\"compact\" class=\"bg-transparent\">\n              <v-list-item>\n                <v-list-item-title>Hostname</v-list-item-title>\n                <v-list-item-subtitle>{{ info.hostname }}</v-list-item-subtitle>\n              </v-list-item>\n              <v-list-item>\n                <v-list-item-title>Modell</v-list-item-title>\n                <v-list-item-subtitle>{{ info.piModel }}</v-list-item-subtitle>\n              </v-list-item>\n              <v-list-item>\n                <v-list-item-title>Kernel</v-list-item-title>\n                <v-list-item-subtitle>{{ info.kernelVersion }}</v-list-item-subtitle>\n              </v-list-item>\n              <v-list-item>\n                <v-list-item-title>Uptime</v-list-item-title>\n                <v-list-item-subtitle>{{ info.uptime }}</v-list-item-subtitle>\n              </v-list-item>\n              <v-list-item>\n                <v-list-item-title>Node-RED</v-list-item-title>\n                <v-list-item-subtitle>{{ info.nodeRedVersion }}</v-list-item-subtitle>\n              </v-list-item>\n              <v-list-item>\n                <v-list-item-title>Dashboard</v-list-item-title>\n                <v-list-item-subtitle>{{ info.dashboardVersion }}</v-list-item-subtitle>\n              </v-list-item>\n            </v-list>\n          </v-card-text>\n        </v-card>\n      </v-col>\n      \n      <v-col cols=\"12\" md=\"6\">\n        <v-card class=\"info-card\">\n          <v-card-title><v-icon class=\"mr-2\">mdi-chart-line</v-icon> Resurser</v-card-title>\n          <v-card-text>\n            <div class=\"mb-3\">\n              <div class=\"d-flex justify-space-between\">\n                <span>CPU Temp</span>\n                <span :class=\"getTempClass(info.cpuTemp)\">{{ info.cpuTemp }}°C</span>\n              </div>\n              <v-progress-linear :value=\"info.cpuTemp\" :max=\"100\" :color=\"getTempColor(info.cpuTemp)\" height=\"8\" rounded></v-progress-linear>\n            </div>\n            \n            <div class=\"mb-3\">\n              <div class=\"d-flex justify-space-between\">\n                <span>CPU Load (1m)</span>\n                <span>{{ info.loadAverage?.[0]?.toFixed(2) }}</span>\n              </div>\n              <v-progress-linear :value=\"(info.loadAverage?.[0] / info.cpuCores) * 100\" :max=\"100\" color=\"primary\" height=\"8\" rounded></v-progress-linear>\n            </div>\n            \n            <div class=\"mb-3\">\n              <div class=\"d-flex justify-space-between\">\n                <span>Minne</span>\n                <span>{{ info.usedMemoryPercent }}%</span>\n              </div>\n              <v-progress-linear :value=\"info.usedMemoryPercent\" :max=\"100\" color=\"info\" height=\"8\" rounded></v-progress-linear>\n            </div>\n            \n            <div>\n              <div class=\"d-flex justify-space-between\">\n                <span>Disk</span>\n                <span>{{ info.disk?.usedPercent }}%</span>\n              </div>\n              <v-progress-linear :value=\"info.disk?.usedPercent\" :max=\"100\" color=\"warning\" height=\"8\" rounded></v-progress-linear>\n            </div>\n          </v-card-text>\n        </v-card>\n      </v-col>\n    </v-row>\n    \n    <v-btn color=\"primary\" class=\"mt-4\" @click=\"refresh\" :loading=\"loading\">\n      <v-icon left>mdi-refresh</v-icon> Uppdatera\n    </v-btn>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      info: {},\n      loading: false\n    }\n  },\n  mounted() {\n    this.refresh();\n    this.interval = setInterval(() => this.refresh(), 15000);\n  },\n  beforeUnmount() {\n    if (this.interval) clearInterval(this.interval);\n  },\n  methods: {\n    async refresh() {\n      this.loading = true;\n      try {\n        const res = await fetch('/api/system/info');\n        const data = await res.json();\n        if (data.success) this.info = data.data;\n      } catch (e) {\n        console.error('Failed to fetch system info:', e);\n      }\n      this.loading = false;\n    },\n    getTempColor(temp) {\n      if (temp < 50) return 'success';\n      if (temp < 65) return 'warning';\n      return 'error';\n    },\n    getTempClass(temp) {\n      if (temp < 50) return 'text-success';\n      if (temp < 65) return 'text-warning';\n      return 'text-error';\n    }\n  }\n}\n</script>\n\n<style scoped>\n.info-card {\n  background: rgba(0, 20, 40, 0.7) !important;\n  border: 1px solid rgba(27, 191, 255, 0.3);\n  border-radius: 12px;\n}\n.v-list-item-title {\n  font-size: 12px !important;\n  color: rgba(255,255,255,0.7);\n}\n.v-list-item-subtitle {\n  font-size: 14px !important;\n  color: #ffffff !important;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 300,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "service-mode-component",
+        "type": "ui-template",
+        "z": "settings-flow",
+        "group": "settings-group-service",
+        "page": "",
+        "ui": "",
+        "name": "Service Mode",
+        "order": 1,
+        "width": "6",
+        "height": "5",
+        "head": "",
+        "format": "<template>\n  <div class=\"service-mode\">\n    <v-card class=\"service-card\">\n      <v-card-title><v-icon class=\"mr-2\">mdi-wrench</v-icon> Service Mode</v-card-title>\n      <v-card-text>\n        <v-row>\n          <v-col cols=\"6\">\n            <v-btn color=\"warning\" block variant=\"tonal\" @click=\"confirm('restart-nodered')\" :loading=\"loading === 'restart-nodered'\">\n              <v-icon left>mdi-restart</v-icon> Starta om Node-RED\n            </v-btn>\n          </v-col>\n          <v-col cols=\"6\">\n            <v-btn color=\"orange\" block variant=\"tonal\" @click=\"confirm('reboot')\" :loading=\"loading === 'reboot'\">\n              <v-icon left>mdi-restart-alert</v-icon> Starta om Pi\n            </v-btn>\n          </v-col>\n          <v-col cols=\"6\">\n            <v-btn color=\"error\" block variant=\"tonal\" @click=\"confirm('shutdown')\" :loading=\"loading === 'shutdown'\">\n              <v-icon left>mdi-power</v-icon> Stäng av\n            </v-btn>\n          </v-col>\n          <v-col cols=\"6\">\n            <v-btn color=\"info\" block variant=\"tonal\" @click=\"confirm('safemode')\" :loading=\"loading === 'safemode'\">\n              <v-icon left>mdi-shield-check</v-icon> Safe Mode\n            </v-btn>\n          </v-col>\n        </v-row>\n      </v-card-text>\n    </v-card>\n    \n    <v-dialog v-model=\"confirmDialog\" max-width=\"400\">\n      <v-card>\n        <v-card-title>Bekräfta</v-card-title>\n        <v-card-text>{{ confirmMessage }}</v-card-text>\n        <v-card-actions>\n          <v-spacer></v-spacer>\n          <v-btn @click=\"confirmDialog = false\">Avbryt</v-btn>\n          <v-btn color=\"error\" @click=\"executeAction\">Bekräfta</v-btn>\n        </v-card-actions>\n      </v-card>\n    </v-dialog>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      loading: null,\n      confirmDialog: false,\n      confirmAction: null,\n      confirmMessage: ''\n    }\n  },\n  methods: {\n    confirm(action) {\n      this.confirmAction = action;\n      const messages = {\n        'restart-nodered': 'Vill du starta om Node-RED? Dashboard kommer vara otillgängligt i ca 30 sekunder.',\n        'reboot': 'Vill du starta om Raspberry Pi? Systemet kommer vara otillgängligt i ca 1 minut.',\n        'shutdown': 'Vill du stänga av Raspberry Pi? Du måste fysiskt starta den igen.',\n        'safemode': 'Vill du starta i Safe Mode? Plugins kommer inte laddas.'\n      };\n      this.confirmMessage = messages[action];\n      this.confirmDialog = true;\n    },\n    async executeAction() {\n      this.confirmDialog = false;\n      this.loading = this.confirmAction;\n      \n      try {\n        const endpoints = {\n          'restart-nodered': '/api/system/restart-nodered',\n          'reboot': '/api/system/reboot',\n          'shutdown': '/api/system/shutdown',\n          'safemode': '/api/system/safemode'\n        };\n        \n        await fetch(endpoints[this.confirmAction], { method: 'POST' });\n      } catch (e) {\n        console.error('Action failed:', e);\n      }\n      \n      this.loading = null;\n    }\n  }\n}\n</script>\n\n<style scoped>\n.service-card {\n  background: rgba(0, 20, 40, 0.7) !important;\n  border: 1px solid rgba(27, 191, 255, 0.3);\n  border-radius: 12px;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 300,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "modbus-config-component",
+        "type": "ui-template",
+        "z": "settings-flow",
+        "group": "settings-group-modbus",
+        "page": "",
+        "ui": "",
+        "name": "Modbus TCP Config",
+        "order": 1,
+        "width": "6",
+        "height": "6",
+        "head": "",
+        "format": "<template>\n  <div class=\"modbus-config\">\n    <v-card class=\"config-card\">\n      <v-card-title class=\"d-flex align-center\">\n        <v-icon class=\"mr-2\">mdi-server-network</v-icon> Modbus TCP Server\n        <v-switch v-model=\"config.enabled\" class=\"ml-auto\" color=\"primary\" hide-details density=\"compact\"></v-switch>\n      </v-card-title>\n      <v-card-text>\n        <v-text-field v-model=\"config.port\" label=\"Port\" type=\"number\" density=\"compact\" :disabled=\"config.enabled\"></v-text-field>\n        <v-text-field v-model=\"config.timeout\" label=\"Timeout (ms)\" type=\"number\" density=\"compact\"></v-text-field>\n        <v-text-field v-model=\"config.maxClients\" label=\"Max Clients\" type=\"number\" density=\"compact\"></v-text-field>\n        <v-text-field v-model=\"config.unitId\" label=\"Unit ID\" type=\"number\" density=\"compact\"></v-text-field>\n        <v-textarea v-model=\"config.notes\" label=\"Anteckningar\" rows=\"2\" density=\"compact\"></v-textarea>\n      </v-card-text>\n      <v-card-actions>\n        <v-btn color=\"primary\" @click=\"save\" :loading=\"saving\">Spara</v-btn>\n        <v-btn @click=\"refresh\">Återställ</v-btn>\n      </v-card-actions>\n    </v-card>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      config: {},\n      saving: false\n    }\n  },\n  mounted() { this.refresh(); },\n  methods: {\n    async refresh() {\n      try {\n        const res = await fetch('/api/config/modbus');\n        const data = await res.json();\n        if (data.success) this.config = data.data;\n      } catch (e) { console.error(e); }\n    },\n    async save() {\n      this.saving = true;\n      try {\n        await fetch('/api/config/modbus', {\n          method: 'POST',\n          headers: { 'Content-Type': 'application/json' },\n          body: JSON.stringify(this.config)\n        });\n      } catch (e) { console.error(e); }\n      this.saving = false;\n    }\n  }\n}\n</script>\n\n<style scoped>\n.config-card {\n  background: rgba(0, 20, 40, 0.7) !important;\n  border: 1px solid rgba(27, 191, 255, 0.3);\n  border-radius: 12px;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 300,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bacnet-config-component",
+        "type": "ui-template",
+        "z": "settings-flow",
+        "group": "settings-group-bacnet",
+        "page": "",
+        "ui": "",
+        "name": "BACnet/IP Config",
+        "order": 1,
+        "width": "6",
+        "height": "6",
+        "head": "",
+        "format": "<template>\n  <div class=\"bacnet-config\">\n    <v-card class=\"config-card\">\n      <v-card-title class=\"d-flex align-center\">\n        <v-icon class=\"mr-2\">mdi-home-automation</v-icon> BACnet/IP\n        <v-switch v-model=\"config.enabled\" class=\"ml-auto\" color=\"primary\" hide-details density=\"compact\"></v-switch>\n      </v-card-title>\n      <v-card-text>\n        <v-text-field v-model=\"config.deviceInstance\" label=\"Device Instance\" type=\"number\" density=\"compact\"></v-text-field>\n        <v-text-field v-model=\"config.udpPort\" label=\"UDP Port\" type=\"number\" density=\"compact\"></v-text-field>\n        <v-text-field v-model=\"config.broadcastAddress\" label=\"Broadcast Address\" density=\"compact\"></v-text-field>\n        <v-text-field v-model=\"config.vendorName\" label=\"Vendor Name\" density=\"compact\"></v-text-field>\n        <v-text-field v-model=\"config.modelName\" label=\"Model Name\" density=\"compact\"></v-text-field>\n      </v-card-text>\n      <v-card-actions>\n        <v-btn color=\"primary\" @click=\"save\" :loading=\"saving\">Spara</v-btn>\n        <v-btn @click=\"refresh\">Återställ</v-btn>\n      </v-card-actions>\n    </v-card>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      config: {},\n      saving: false\n    }\n  },\n  mounted() { this.refresh(); },\n  methods: {\n    async refresh() {\n      try {\n        const res = await fetch('/api/config/bacnet');\n        const data = await res.json();\n        if (data.success) this.config = data.data;\n      } catch (e) { console.error(e); }\n    },\n    async save() {\n      this.saving = true;\n      try {\n        await fetch('/api/config/bacnet', {\n          method: 'POST',\n          headers: { 'Content-Type': 'application/json' },\n          body: JSON.stringify(this.config)\n        });\n      } catch (e) { console.error(e); }\n      this.saving = false;\n    }\n  }\n}\n</script>\n\n<style scoped>\n.config-card {\n  background: rgba(0, 20, 40, 0.7) !important;\n  border: 1px solid rgba(27, 191, 255, 0.3);\n  border-radius: 12px;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 300,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "rs485-config-component",
+        "type": "ui-template",
+        "z": "settings-flow",
+        "group": "settings-group-rs485",
+        "page": "",
+        "ui": "",
+        "name": "RS485 Config",
+        "order": 1,
+        "width": "12",
+        "height": "6",
+        "head": "",
+        "format": "<template>\n  <div class=\"rs485-config\">\n    <v-row>\n      <v-col cols=\"12\" md=\"6\">\n        <v-card class=\"config-card\">\n          <v-card-title><v-icon class=\"mr-2\">mdi-serial-port</v-icon> RS485 Inställningar</v-card-title>\n          <v-card-text>\n            <v-select v-model=\"config.port\" :items=\"ports\" label=\"Serieport\" density=\"compact\"></v-select>\n            <v-select v-model=\"config.baudrate\" :items=\"baudrates\" label=\"Baudrate\" density=\"compact\"></v-select>\n            <v-select v-model=\"config.parity\" :items=\"parities\" label=\"Parity\" density=\"compact\"></v-select>\n            <v-select v-model=\"config.stopBits\" :items=\"[1, 2]\" label=\"Stop Bits\" density=\"compact\"></v-select>\n            <v-select v-model=\"config.mode\" :items=\"['RTU', 'ASCII']\" label=\"Mode\" density=\"compact\"></v-select>\n            <v-switch v-model=\"config.termination\" label=\"Termination\" color=\"primary\" density=\"compact\"></v-switch>\n          </v-card-text>\n          <v-card-actions>\n            <v-btn color=\"primary\" @click=\"save\" :loading=\"saving\">Spara</v-btn>\n            <v-btn @click=\"refresh\">Återställ</v-btn>\n          </v-card-actions>\n        </v-card>\n      </v-col>\n      \n      <v-col cols=\"12\" md=\"6\">\n        <v-card class=\"config-card\">\n          <v-card-title><v-icon class=\"mr-2\">mdi-bug</v-icon> Diagnostik</v-card-title>\n          <v-card-text>\n            <v-list density=\"compact\" class=\"bg-transparent\">\n              <v-list-item>\n                <v-list-item-title>TX Errors</v-list-item-title>\n                <v-list-item-subtitle>{{ diagnostics.errors?.tx || 0 }}</v-list-item-subtitle>\n              </v-list-item>\n              <v-list-item>\n                <v-list-item-title>RX Errors</v-list-item-title>\n                <v-list-item-subtitle>{{ diagnostics.errors?.rx || 0 }}</v-list-item-subtitle>\n              </v-list-item>\n              <v-list-item>\n                <v-list-item-title>Collisions</v-list-item-title>\n                <v-list-item-subtitle>{{ diagnostics.errors?.collisions || 0 }}</v-list-item-subtitle>\n              </v-list-item>\n              <v-list-item>\n                <v-list-item-title>Timeouts</v-list-item-title>\n                <v-list-item-subtitle>{{ diagnostics.errors?.timeouts || 0 }}</v-list-item-subtitle>\n              </v-list-item>\n            </v-list>\n            \n            <v-divider class=\"my-2\"></v-divider>\n            <h4>Senaste frames</h4>\n            <div v-for=\"frame in diagnostics.lastFrames\" :key=\"frame.timestamp\" class=\"frame-item\">\n              <code>{{ frame.timestamp.split('T')[1].split('.')[0] }} [{{ frame.direction }}] Unit:{{ frame.unitId }} FC:{{ frame.functionCode }}</code>\n            </div>\n          </v-card-text>\n          <v-card-actions>\n            <v-btn @click=\"refreshDiag\" :loading=\"loadingDiag\">Uppdatera</v-btn>\n            <v-btn color=\"warning\" @click=\"resetErrors\">Nollställ</v-btn>\n          </v-card-actions>\n        </v-card>\n      </v-col>\n    </v-row>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      config: {},\n      diagnostics: { errors: {}, lastFrames: [] },\n      ports: ['/dev/ttyAMA0', '/dev/ttyUSB0', '/dev/ttyUSB1', '/dev/ttyS0'],\n      baudrates: [1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200],\n      parities: ['none', 'even', 'odd'],\n      saving: false,\n      loadingDiag: false\n    }\n  },\n  mounted() {\n    this.refresh();\n    this.refreshDiag();\n    this.loadPorts();\n  },\n  methods: {\n    async refresh() {\n      try {\n        const res = await fetch('/api/config/rs485');\n        const data = await res.json();\n        if (data.success) this.config = data.data;\n      } catch (e) { console.error(e); }\n    },\n    async save() {\n      this.saving = true;\n      try {\n        await fetch('/api/config/rs485', {\n          method: 'POST',\n          headers: { 'Content-Type': 'application/json' },\n          body: JSON.stringify(this.config)\n        });\n      } catch (e) { console.error(e); }\n      this.saving = false;\n    },\n    async loadPorts() {\n      try {\n        const res = await fetch('/api/config/rs485/ports');\n        const data = await res.json();\n        if (data.success && data.data.length) {\n          this.ports = [...new Set([...this.ports, ...data.data])];\n        }\n      } catch (e) { console.error(e); }\n    },\n    async refreshDiag() {\n      this.loadingDiag = true;\n      try {\n        const res = await fetch('/api/config/rs485/diagnostics');\n        const data = await res.json();\n        if (data.success) this.diagnostics = data.data;\n      } catch (e) { console.error(e); }\n      this.loadingDiag = false;\n    },\n    async resetErrors() {\n      try {\n        await fetch('/api/config/rs485/reset-errors', { method: 'POST' });\n        this.refreshDiag();\n      } catch (e) { console.error(e); }\n    }\n  }\n}\n</script>\n\n<style scoped>\n.config-card {\n  background: rgba(0, 20, 40, 0.7) !important;\n  border: 1px solid rgba(27, 191, 255, 0.3);\n  border-radius: 12px;\n}\n.frame-item {\n  font-size: 11px;\n  padding: 2px 0;\n  border-bottom: 1px solid rgba(255,255,255,0.1);\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 300,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "logging-config-component",
+        "type": "ui-template",
+        "z": "settings-flow",
+        "group": "settings-group-logging",
+        "page": "",
+        "ui": "",
+        "name": "Logging Config",
+        "order": 1,
+        "width": "6",
+        "height": "6",
+        "head": "",
+        "format": "<template>\n  <div class=\"logging-config\">\n    <v-card class=\"config-card\">\n      <v-card-title><v-icon class=\"mr-2\">mdi-file-document</v-icon> Loggning</v-card-title>\n      <v-card-text>\n        <v-select v-model=\"config.interval\" :items=\"intervals\" label=\"Loggintervall\" item-title=\"text\" item-value=\"value\" density=\"compact\"></v-select>\n        <v-text-field v-model=\"config.maxDays\" label=\"Behåll loggar (dagar)\" type=\"number\" density=\"compact\"></v-text-field>\n        <v-text-field v-model=\"config.localPath\" label=\"Lokal sökväg\" density=\"compact\"></v-text-field>\n        \n        <v-switch v-model=\"config.sftpEnabled\" label=\"SFTP Backup\" color=\"primary\" density=\"compact\"></v-switch>\n        <template v-if=\"config.sftpEnabled\">\n          <v-text-field v-model=\"config.sftpHost\" label=\"SFTP Host\" density=\"compact\"></v-text-field>\n          <v-text-field v-model=\"config.sftpUser\" label=\"SFTP User\" density=\"compact\"></v-text-field>\n          <v-text-field v-model=\"config.sftpPath\" label=\"SFTP Path\" density=\"compact\"></v-text-field>\n        </template>\n        \n        <v-switch v-model=\"config.httpEnabled\" label=\"HTTP POST\" color=\"primary\" density=\"compact\"></v-switch>\n        <v-text-field v-if=\"config.httpEnabled\" v-model=\"config.httpEndpoint\" label=\"HTTP Endpoint\" density=\"compact\"></v-text-field>\n        \n        <v-switch v-model=\"config.longTermEnabled\" label=\"Långtidsloggning\" color=\"primary\" density=\"compact\"></v-switch>\n      </v-card-text>\n      <v-card-actions>\n        <v-btn color=\"primary\" @click=\"save\" :loading=\"saving\">Spara</v-btn>\n        <v-btn @click=\"refresh\">Återställ</v-btn>\n      </v-card-actions>\n    </v-card>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      config: {},\n      saving: false,\n      intervals: [\n        { text: '10 sekunder', value: 10 },\n        { text: '30 sekunder', value: 30 },\n        { text: '1 minut', value: 60 },\n        { text: '5 minuter', value: 300 },\n        { text: '10 minuter', value: 600 },\n        { text: '15 minuter', value: 900 },\n        { text: '30 minuter', value: 1800 },\n        { text: '1 timme', value: 3600 }\n      ]\n    }\n  },\n  mounted() { this.refresh(); },\n  methods: {\n    async refresh() {\n      try {\n        const res = await fetch('/api/config/logging');\n        const data = await res.json();\n        if (data.success) this.config = data.data;\n      } catch (e) { console.error(e); }\n    },\n    async save() {\n      this.saving = true;\n      try {\n        await fetch('/api/config/logging', {\n          method: 'POST',\n          headers: { 'Content-Type': 'application/json' },\n          body: JSON.stringify(this.config)\n        });\n      } catch (e) { console.error(e); }\n      this.saving = false;\n    }\n  }\n}\n</script>\n\n<style scoped>\n.config-card {\n  background: rgba(0, 20, 40, 0.7) !important;\n  border: 1px solid rgba(27, 191, 255, 0.3);\n  border-radius: 12px;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 300,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "config-mgmt-component",
+        "type": "ui-template",
+        "z": "settings-flow",
+        "group": "settings-group-configmgmt",
+        "page": "",
+        "ui": "",
+        "name": "Config Management",
+        "order": 1,
+        "width": "6",
+        "height": "5",
+        "head": "",
+        "format": "<template>\n  <div class=\"config-mgmt\">\n    <v-card class=\"config-card\">\n      <v-card-title><v-icon class=\"mr-2\">mdi-cog-transfer</v-icon> Konfigurationshantering</v-card-title>\n      <v-card-text>\n        <v-row>\n          <v-col cols=\"6\">\n            <v-btn color=\"primary\" block @click=\"exportConfig\" :loading=\"exporting\">\n              <v-icon left>mdi-download</v-icon> Exportera\n            </v-btn>\n          </v-col>\n          <v-col cols=\"6\">\n            <v-btn color=\"secondary\" block @click=\"$refs.fileInput.click()\">\n              <v-icon left>mdi-upload</v-icon> Importera\n            </v-btn>\n            <input ref=\"fileInput\" type=\"file\" accept=\".json\" @change=\"importConfig\" style=\"display: none\">\n          </v-col>\n          <v-col cols=\"12\">\n            <v-btn color=\"warning\" block variant=\"tonal\" @click=\"confirmReset = true\">\n              <v-icon left>mdi-restore</v-icon> Återställ till Default\n            </v-btn>\n          </v-col>\n        </v-row>\n      </v-card-text>\n    </v-card>\n    \n    <v-dialog v-model=\"confirmReset\" max-width=\"400\">\n      <v-card>\n        <v-card-title>Bekräfta återställning</v-card-title>\n        <v-card-text>Alla inställningar kommer återställas till fabriksinställningar. Vill du fortsätta?</v-card-text>\n        <v-card-actions>\n          <v-spacer></v-spacer>\n          <v-btn @click=\"confirmReset = false\">Avbryt</v-btn>\n          <v-btn color=\"error\" @click=\"resetToDefaults\">Återställ</v-btn>\n        </v-card-actions>\n      </v-card>\n    </v-dialog>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      exporting: false,\n      confirmReset: false\n    }\n  },\n  methods: {\n    async exportConfig() {\n      this.exporting = true;\n      try {\n        const res = await fetch('/api/config/export');\n        const data = await res.json();\n        if (data.success) {\n          const blob = new Blob([JSON.stringify(data.data, null, 2)], { type: 'application/json' });\n          const url = URL.createObjectURL(blob);\n          const a = document.createElement('a');\n          a.href = url;\n          a.download = `reflink-config-${new Date().toISOString().split('T')[0]}.json`;\n          a.click();\n          URL.revokeObjectURL(url);\n        }\n      } catch (e) { console.error(e); }\n      this.exporting = false;\n    },\n    async importConfig(event) {\n      const file = event.target.files[0];\n      if (!file) return;\n      \n      const reader = new FileReader();\n      reader.onload = async (e) => {\n        try {\n          const config = JSON.parse(e.target.result);\n          await fetch('/api/config/import', {\n            method: 'POST',\n            headers: { 'Content-Type': 'application/json' },\n            body: JSON.stringify(config)\n          });\n          alert('Konfiguration importerad!');\n        } catch (err) {\n          alert('Fel vid import: ' + err.message);\n        }\n      };\n      reader.readAsText(file);\n    },\n    async resetToDefaults() {\n      this.confirmReset = false;\n      try {\n        await fetch('/api/config/reset', { method: 'POST' });\n        alert('Konfiguration återställd!');\n      } catch (e) { console.error(e); }\n    }\n  }\n}\n</script>\n\n<style scoped>\n.config-card {\n  background: rgba(0, 20, 40, 0.7) !important;\n  border: 1px solid rgba(27, 191, 255, 0.3);\n  border-radius: 12px;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 300,
+        "y": 640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "users-component",
+        "type": "ui-template",
+        "z": "settings-flow",
+        "group": "settings-group-users",
+        "page": "",
+        "ui": "",
+        "name": "Users Management",
+        "order": 1,
+        "width": "6",
+        "height": "6",
+        "head": "",
+        "format": "<template>\n  <div class=\"users-mgmt\">\n    <v-card class=\"config-card\">\n      <v-card-title class=\"d-flex\">\n        <v-icon class=\"mr-2\">mdi-account-group</v-icon> Användare\n        <v-btn class=\"ml-auto\" size=\"small\" color=\"primary\" @click=\"showCreate = true\">\n          <v-icon>mdi-plus</v-icon>\n        </v-btn>\n      </v-card-title>\n      <v-card-text>\n        <v-list density=\"compact\" class=\"bg-transparent\">\n          <v-list-item v-for=\"user in users\" :key=\"user.username\">\n            <template v-slot:prepend>\n              <v-icon>{{ user.role === 'admin' ? 'mdi-shield-crown' : 'mdi-account' }}</v-icon>\n            </template>\n            <v-list-item-title>{{ user.username }}</v-list-item-title>\n            <v-list-item-subtitle>{{ user.role }} - {{ formatDate(user.lastLogin) }}</v-list-item-subtitle>\n            <template v-slot:append>\n              <v-btn icon size=\"x-small\" @click=\"openPassword(user.username)\">\n                <v-icon size=\"small\">mdi-key</v-icon>\n              </v-btn>\n              <v-btn icon size=\"x-small\" color=\"error\" @click=\"deleteUser(user.username)\" :disabled=\"user.username === 'admin'\">\n                <v-icon size=\"small\">mdi-delete</v-icon>\n              </v-btn>\n            </template>\n          </v-list-item>\n        </v-list>\n      </v-card-text>\n    </v-card>\n    \n    <v-dialog v-model=\"showCreate\" max-width=\"400\">\n      <v-card>\n        <v-card-title>Skapa användare</v-card-title>\n        <v-card-text>\n          <v-text-field v-model=\"newUser.username\" label=\"Användarnamn\" density=\"compact\"></v-text-field>\n          <v-text-field v-model=\"newUser.password\" label=\"Lösenord\" type=\"password\" density=\"compact\"></v-text-field>\n          <v-select v-model=\"newUser.role\" :items=\"['admin', 'technician', 'viewer']\" label=\"Roll\" density=\"compact\"></v-select>\n        </v-card-text>\n        <v-card-actions>\n          <v-spacer></v-spacer>\n          <v-btn @click=\"showCreate = false\">Avbryt</v-btn>\n          <v-btn color=\"primary\" @click=\"createUser\">Skapa</v-btn>\n        </v-card-actions>\n      </v-card>\n    </v-dialog>\n    \n    <v-dialog v-model=\"showPassword\" max-width=\"400\">\n      <v-card>\n        <v-card-title>Ändra lösenord för {{ selectedUser }}</v-card-title>\n        <v-card-text>\n          <v-text-field v-model=\"newPassword\" label=\"Nytt lösenord\" type=\"password\" density=\"compact\"></v-text-field>\n        </v-card-text>\n        <v-card-actions>\n          <v-spacer></v-spacer>\n          <v-btn @click=\"showPassword = false\">Avbryt</v-btn>\n          <v-btn color=\"primary\" @click=\"changePassword\">Spara</v-btn>\n        </v-card-actions>\n      </v-card>\n    </v-dialog>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      users: [],\n      showCreate: false,\n      showPassword: false,\n      selectedUser: '',\n      newPassword: '',\n      newUser: { username: '', password: '', role: 'technician' }\n    }\n  },\n  mounted() { this.refresh(); },\n  methods: {\n    async refresh() {\n      try {\n        const res = await fetch('/api/auth/users');\n        const data = await res.json();\n        if (data.success) this.users = data.data;\n      } catch (e) { console.error(e); }\n    },\n    async createUser() {\n      try {\n        await fetch('/api/auth/users', {\n          method: 'POST',\n          headers: { 'Content-Type': 'application/json' },\n          body: JSON.stringify(this.newUser)\n        });\n        this.showCreate = false;\n        this.newUser = { username: '', password: '', role: 'technician' };\n        this.refresh();\n      } catch (e) { console.error(e); }\n    },\n    openPassword(username) {\n      this.selectedUser = username;\n      this.newPassword = '';\n      this.showPassword = true;\n    },\n    async changePassword() {\n      try {\n        await fetch(`/api/auth/users/${this.selectedUser}/password`, {\n          method: 'POST',\n          headers: { 'Content-Type': 'application/json' },\n          body: JSON.stringify({ newPassword: this.newPassword })\n        });\n        this.showPassword = false;\n      } catch (e) { console.error(e); }\n    },\n    async deleteUser(username) {\n      if (confirm(`Ta bort användare ${username}?`)) {\n        try {\n          await fetch(`/api/auth/users/${username}`, { method: 'DELETE' });\n          this.refresh();\n        } catch (e) { console.error(e); }\n      }\n    },\n    formatDate(date) {\n      return date ? new Date(date).toLocaleString('sv-SE') : 'Aldrig';\n    }\n  }\n}\n</script>\n\n<style scoped>\n.config-card {\n  background: rgba(0, 20, 40, 0.7) !important;\n  border: 1px solid rgba(27, 191, 255, 0.3);\n  border-radius: 12px;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 300,
+        "y": 700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "apikeys-component",
+        "type": "ui-template",
+        "z": "settings-flow",
+        "group": "settings-group-apikeys",
+        "page": "",
+        "ui": "",
+        "name": "API Keys Management",
+        "order": 1,
+        "width": "6",
+        "height": "6",
+        "head": "",
+        "format": "<template>\n  <div class=\"apikeys-mgmt\">\n    <v-card class=\"config-card\">\n      <v-card-title class=\"d-flex\">\n        <v-icon class=\"mr-2\">mdi-key-chain</v-icon> API-nycklar\n        <v-btn class=\"ml-auto\" size=\"small\" color=\"primary\" @click=\"showCreate = true\">\n          <v-icon>mdi-plus</v-icon>\n        </v-btn>\n      </v-card-title>\n      <v-card-text>\n        <v-list density=\"compact\" class=\"bg-transparent\">\n          <v-list-item v-for=\"key in keys\" :key=\"key.id\">\n            <template v-slot:prepend>\n              <v-icon>mdi-key</v-icon>\n            </template>\n            <v-list-item-title>{{ key.name }}</v-list-item-title>\n            <v-list-item-subtitle>\n              {{ key.keyPreview }} - Använd {{ key.usageCount }} ggr\n            </v-list-item-subtitle>\n            <template v-slot:append>\n              <v-btn icon size=\"x-small\" color=\"error\" @click=\"deleteKey(key.id)\">\n                <v-icon size=\"small\">mdi-delete</v-icon>\n              </v-btn>\n            </template>\n          </v-list-item>\n        </v-list>\n        \n        <v-alert v-if=\"newKey\" type=\"success\" class=\"mt-3\" density=\"compact\" closable @click:close=\"newKey = null\">\n          <strong>Ny API-nyckel skapad!</strong><br>\n          Spara denna nyckel - den visas endast EN gång:<br>\n          <code style=\"word-break: break-all\">{{ newKey }}</code>\n        </v-alert>\n      </v-card-text>\n    </v-card>\n    \n    <v-dialog v-model=\"showCreate\" max-width=\"400\">\n      <v-card>\n        <v-card-title>Skapa API-nyckel</v-card-title>\n        <v-card-text>\n          <v-text-field v-model=\"keyName\" label=\"Namn\" placeholder=\"Ex: Integration XYZ\" density=\"compact\"></v-text-field>\n          <v-checkbox v-model=\"permissions\" label=\"Read\" value=\"read\" density=\"compact\"></v-checkbox>\n          <v-checkbox v-model=\"permissions\" label=\"Write\" value=\"write\" density=\"compact\"></v-checkbox>\n        </v-card-text>\n        <v-card-actions>\n          <v-spacer></v-spacer>\n          <v-btn @click=\"showCreate = false\">Avbryt</v-btn>\n          <v-btn color=\"primary\" @click=\"createKey\">Skapa</v-btn>\n        </v-card-actions>\n      </v-card>\n    </v-dialog>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      keys: [],\n      showCreate: false,\n      keyName: '',\n      permissions: ['read'],\n      newKey: null\n    }\n  },\n  mounted() { this.refresh(); },\n  methods: {\n    async refresh() {\n      try {\n        const res = await fetch('/api/auth/apikeys');\n        const data = await res.json();\n        if (data.success) this.keys = data.data;\n      } catch (e) { console.error(e); }\n    },\n    async createKey() {\n      try {\n        const res = await fetch('/api/auth/apikeys', {\n          method: 'POST',\n          headers: { 'Content-Type': 'application/json' },\n          body: JSON.stringify({ name: this.keyName, permissions: this.permissions })\n        });\n        const data = await res.json();\n        if (data.success) {\n          this.newKey = data.data.key;\n          this.showCreate = false;\n          this.keyName = '';\n          this.permissions = ['read'];\n          this.refresh();\n        }\n      } catch (e) { console.error(e); }\n    },\n    async deleteKey(id) {\n      if (confirm('Ta bort denna API-nyckel?')) {\n        try {\n          await fetch(`/api/auth/apikeys/${id}`, { method: 'DELETE' });\n          this.refresh();\n        } catch (e) { console.error(e); }\n      }\n    }\n  }\n}\n</script>\n\n<style scoped>\n.config-card {\n  background: rgba(0, 20, 40, 0.7) !important;\n  border: 1px solid rgba(27, 191, 255, 0.3);\n  border-radius: 12px;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 300,
+        "y": 760,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "failover-component",
+        "type": "ui-template",
+        "z": "settings-flow",
+        "group": "settings-group-failover",
+        "page": "",
+        "ui": "",
+        "name": "Failover Status",
+        "order": 1,
+        "width": "4",
+        "height": "4",
+        "head": "",
+        "format": "<template>\n  <div class=\"failover-status\">\n    <v-card class=\"status-card\">\n      <v-card-title><v-icon class=\"mr-2\">mdi-swap-horizontal</v-icon> Failover</v-card-title>\n      <v-card-text>\n        <div v-for=\"(iface, idx) in failover.priority\" :key=\"iface\" class=\"priority-item\" :class=\"{ active: failover.active === iface }\">\n          <span class=\"priority-number\">{{ idx + 1 }}</span>\n          <v-icon :color=\"failover.interfaces?.[iface]?.hasInternet ? '#4CAF50' : '#F44336'\" size=\"small\">\n            {{ failover.interfaces?.[iface]?.hasInternet ? 'mdi-check-circle' : 'mdi-close-circle' }}\n          </v-icon>\n          <span class=\"iface-name\">{{ iface }}</span>\n          <span v-if=\"failover.interfaces?.[iface]?.latency\" class=\"latency\">\n            {{ failover.interfaces[iface].latency }}ms\n          </span>\n          <v-chip v-if=\"failover.active === iface\" size=\"x-small\" color=\"success\" class=\"ml-2\">AKTIV</v-chip>\n        </div>\n      </v-card-text>\n    </v-card>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      failover: { priority: ['eth0', 'eth1', 'wlan0'], active: null, interfaces: {} }\n    }\n  },\n  mounted() {\n    this.refresh();\n    this.interval = setInterval(() => this.refresh(), 15000);\n  },\n  beforeUnmount() {\n    if (this.interval) clearInterval(this.interval);\n  },\n  methods: {\n    async refresh() {\n      try {\n        const res = await fetch('/api/network/failover');\n        const data = await res.json();\n        if (data.success) this.failover = data.data;\n      } catch (e) { console.error(e); }\n    }\n  }\n}\n</script>\n\n<style scoped>\n.status-card {\n  background: rgba(0, 20, 40, 0.7) !important;\n  border: 1px solid rgba(27, 191, 255, 0.3);\n  border-radius: 12px;\n}\n.priority-item {\n  display: flex;\n  align-items: center;\n  padding: 8px 12px;\n  margin: 4px 0;\n  border-radius: 8px;\n  background: rgba(255,255,255,0.05);\n  transition: all 0.3s ease;\n}\n.priority-item.active {\n  background: rgba(76, 175, 80, 0.2);\n  border: 1px solid rgba(76, 175, 80, 0.5);\n}\n.priority-number {\n  width: 24px;\n  height: 24px;\n  border-radius: 50%;\n  background: rgba(27, 191, 255, 0.3);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 12px;\n  font-weight: bold;\n  margin-right: 8px;\n}\n.iface-name {\n  flex: 1;\n  margin-left: 8px;\n  font-weight: 500;\n}\n.latency {\n  font-size: 11px;\n  opacity: 0.7;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 300,
+        "y": 820,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "reflink-examples-flow",
+        "type": "tab",
+        "label": "📘 Reflink Examples",
+        "disabled": false,
+        "info": "Best practice exempel för Reflink Message Standard v1.0"
+    },
+    {
+        "id": "reflink-std-doc-96412fe4",
+        "type": "comment",
+        "z": "reflink-examples-flow",
+        "name": "📚 REFLINK MESSAGE STANDARD v1.0",
+        "info": "# Reflink Message Standard v1.0\n\n## Obligatoriska fält\n\n| Fält | Typ | Beskrivning |\n|------|-----|-------------|\n| `msg.action` | string | Vad ska hända? t.ex. `showControllers`, `refresh` |\n| `msg.group` | string | Vilken kategori? t.ex. `Controllers`, `Alarms` |\n\n## Giltiga actions\n\n### Controllers\n- `showControllers` - Visa alla regulatorer\n- `showKylar` - Visa endast kylar (setpoint >= 0)\n- `showFrysar` - Visa endast frysar (setpoint < 0)\n- `setSetpoint` - Ändra börvärde\n- `togglePower` - Slå på/av\n\n### Machines\n- `showMachines` - Visa alla maskiner\n- `showMachineGauges` - Visa maskin-gauges\n\n### Alarms\n- `showAlarms` - Visa aktiva larm\n- `showAlarmSummary` - Visa larmsammanfattning\n- `latestAlarms` - Visa senaste larm\n- `acknowledgeAlarm` - Kvittera larm\n\n### System\n- `refresh` - Uppdatera data\n- `navigate` - Navigera till sida\n- `exportBackup` - Exportera backup\n\n## Exempel\n\n```javascript\n// I inject-nod:\nmsg.action = 'showControllers';\nmsg.group = 'Controllers';\n\n// I function-nod (Safe Header):\nmsg.action = msg.action || 'showControllers';\nmsg.group = msg.group || 'Controllers';\n```\n\n## Best Practices\n\n1. **Alltid Safe Header** - Första raderna i varje function-nod\n2. **Explicit action/group** - Sätt alltid båda, även om du tror de är satta\n3. **Fallback-värden** - Använd `||` för säkra defaults\n4. **Status-uppdatering** - Visa action och group i node.status()\n",
+        "x": 100,
+        "y": 50,
+        "wires": []
+    },
+    {
+        "id": "safe-handler-45aead62",
+        "type": "function",
+        "z": "reflink-examples-flow",
+        "name": "🛡️ Universal Safe Handler",
+        "func": "// ═══════════════════════════════════════════════════════════════════════════\n// UNIVERSAL SAFE HANDLER - Reflink Message Standard v1.0\n// ═══════════════════════════════════════════════════════════════════════════\n// Garanterar att msg.action och msg.group alltid är satta\n// Skyddar mot null/undefined och TypeError\n\n// 🛡️ VALIDATE INCOMING MESSAGE\nmsg = msg || {};\n\n// 🎯 ACTION - Vad ska hända? (required)\n// Giltiga värden: showControllers, showMachines, showAlarms, showNodes,\n//                 showKylar, showFrysar, refresh, navigate, update, delete\nif (!msg.action || typeof msg.action !== 'string') {\n    // Försök härled från topic eller payload\n    if (msg.topic && typeof msg.topic === 'string') {\n        msg.action = msg.topic;\n    } else if (msg.payload && typeof msg.payload === 'object' && msg.payload.action) {\n        msg.action = msg.payload.action;\n    } else {\n        msg.action = 'unknown';\n        node.warn('⚠️ msg.action saknas - satt till \"unknown\"');\n    }\n}\n\n// 📦 GROUP - Vilken kategori? (required)\n// Giltiga värden: Controllers, Kylar, Frysar, Machines, Alarms, Nodes, System\nif (!msg.group || typeof msg.group !== 'string') {\n    // Försök härled från action eller topic\n    const actionToGroup = {\n        'showControllers': 'Controllers',\n        'showKylar': 'Kylar',\n        'showFrysar': 'Frysar',\n        'showMachines': 'Machines',\n        'showAlarms': 'Alarms',\n        'showNodes': 'Nodes',\n        'showMachineGauges': 'Machines',\n        'alarmSummary': 'Alarms',\n        'latestAlarms': 'Alarms',\n        'createAlarms': 'Alarms',\n        'refresh': 'System',\n        'navigate': 'System'\n    };\n    \n    msg.group = actionToGroup[msg.action] || 'Unknown';\n    \n    if (msg.group === 'Unknown') {\n        node.warn('⚠️ msg.group kunde inte härledas - satt till \"Unknown\"');\n    }\n}\n\n// 📊 METADATA - Lägg till timestamp och source om saknas\nmsg._meta = msg._meta || {};\nmsg._meta.timestamp = msg._meta.timestamp || new Date().toISOString();\nmsg._meta.handler = 'UniversalSafeHandler';\nmsg._meta.version = '1.0';\n\n// 🔒 SANITIZE payload - Garantera att payload existerar\nif (msg.payload === null || msg.payload === undefined) {\n    msg.payload = {};\n}\n\n// Status för debugging\nnode.status({ \n    fill: 'green', \n    shape: 'dot', \n    text: `${msg.action} → ${msg.group}` \n});\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 100,
+        "y": 150,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "action-router-3ca2ba70",
+        "type": "switch",
+        "z": "reflink-examples-flow",
+        "name": "🔀 Action Router",
+        "property": "action",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "showControllers",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "showKylar",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "showFrysar",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "showMachines",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "showAlarms",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "showNodes",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "refresh",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "navigate",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 9,
+        "x": 350,
+        "y": 150,
+        "wires": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "bp-controllers-4abf66ef",
+        "type": "function",
+        "z": "reflink-examples-flow",
+        "name": "📘 Best Practice: Controllers",
+        "func": "// ═══════════════════════════════════════════════════════════════════════════\n// BEST PRACTICE: Controllers Handler\n// ═══════════════════════════════════════════════════════════════════════════\n// Visar hur man använder msg.action/msg.group konsekvent\n\n// 🛡️ SAFE HEADER - Alltid först i varje function-nod\nmsg.action = msg.action || 'showControllers';\nmsg.group = msg.group || 'Controllers';\n\n// 📦 Hämta data från global context (med fallback)\nconst controllers = global.get('reflink.regulators') || [];\n\n// 🔄 Filtrera baserat på action\nlet result = [];\nswitch (msg.action) {\n    case 'showKylar':\n        result = controllers.filter(c => {\n            const sp = parseFloat((c.setpoint || '0').toString().replace(/[^0-9.-]/g, ''));\n            return !isNaN(sp) && sp >= 0;\n        });\n        msg.group = 'Kylar';\n        break;\n        \n    case 'showFrysar':\n        result = controllers.filter(c => {\n            const sp = parseFloat((c.setpoint || '0').toString().replace(/[^0-9.-]/g, ''));\n            return !isNaN(sp) && sp < 0;\n        });\n        msg.group = 'Frysar';\n        break;\n        \n    case 'showControllers':\n    default:\n        result = controllers;\n        break;\n}\n\n// 📊 Bygg response\nmsg.controllers = result;\nmsg.payload = result;\nmsg.count = result.length;\n\n// 📈 Status för debugging\nnode.status({ \n    fill: result.length > 0 ? 'green' : 'yellow', \n    shape: 'dot', \n    text: `${msg.action}: ${result.length} st` \n});\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 100,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bp-machines-92c0b2ca",
+        "type": "function",
+        "z": "reflink-examples-flow",
+        "name": "📘 Best Practice: Machines",
+        "func": "// ═══════════════════════════════════════════════════════════════════════════\n// BEST PRACTICE: Machines Handler\n// ═══════════════════════════════════════════════════════════════════════════\n\n// 🛡️ SAFE HEADER\nmsg.action = msg.action || 'showMachines';\nmsg.group = msg.group || 'Machines';\n\n// 📦 Hämta data\nconst maxHz = 70;\nconst machines = (global.get('reflink.machines') || []).map(m => ({\n    ...m,\n    freqHz: ((m.capacityPercent || 0) / 100 * maxHz).toFixed(1) + ' Hz',\n    status: m.capacityPercent > 80 ? 'high' : (m.capacityPercent > 50 ? 'normal' : 'low')\n}));\n\n// 📊 Bygg response med konsekvent struktur\nmsg.machines = machines;\nmsg.payload = machines;\nmsg.count = machines.length;\n\n// 📈 Status\nnode.status({ \n    fill: 'green', \n    shape: 'dot', \n    text: `${machines.length} maskiner` \n});\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 100,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bp-alarms-e8c06107",
+        "type": "function",
+        "z": "reflink-examples-flow",
+        "name": "📘 Best Practice: Alarms",
+        "func": "// ═══════════════════════════════════════════════════════════════════════════\n// BEST PRACTICE: Alarms Handler\n// ═══════════════════════════════════════════════════════════════════════════\n\n// 🛡️ SAFE HEADER\nmsg.action = msg.action || 'showAlarms';\nmsg.group = msg.group || 'Alarms';\n\n// 📦 Hämta larm från global context\nconst reflink = global.get('reflink') || {};\nconst alarms = reflink.alarms || { \n    active: [], \n    summary: { total: 0, critical: 0, warning: 0, info: 0 },\n    history: []\n};\n\n// 🔄 Hantera olika actions\nlet result;\nswitch (msg.action) {\n    case 'showAlarmSummary':\n    case 'alarmSummary':\n        const s = alarms.summary;\n        result = s.total === 0 \n            ? '✅ Inga aktiva larm'\n            : `⚠️ ${s.total} larm • ${s.critical} kritiska • ${s.warning} varningar`;\n        msg.payload = result;\n        break;\n        \n    case 'latestAlarms':\n        const sorted = [...alarms.active].sort((a, b) => \n            new Date(b.timestamp) - new Date(a.timestamp)\n        );\n        result = sorted.slice(0, 5);\n        msg.payload = result;\n        break;\n        \n    case 'showAlarms':\n    default:\n        result = alarms.active;\n        msg.payload = result;\n        break;\n}\n\nmsg.alarms = alarms.active;\nmsg.alarmsSummary = alarms.summary;\nmsg.count = alarms.active.length;\n\n// 📈 Status baserad på allvarlighetsgrad\nconst fill = alarms.summary.critical > 0 ? 'red' : \n             (alarms.summary.warning > 0 ? 'yellow' : 'green');\nnode.status({ fill, shape: 'dot', text: `${alarms.active.length} larm` });\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 100,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "inject-controllers-bb24f5b7",
+        "type": "inject",
+        "z": "reflink-examples-flow",
+        "name": "Show Controllers",
+        "props": [
+            {
+                "p": "action",
+                "v": "showControllers",
+                "vt": "str"
+            },
+            {
+                "p": "group",
+                "v": "Controllers",
+                "vt": "str"
+            },
+            {
+                "p": "payload",
+                "v": "",
+                "vt": "date"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "inject-machines-113ea702",
+        "type": "inject",
+        "z": "reflink-examples-flow",
+        "name": "Show Machines",
+        "props": [
+            {
+                "p": "action",
+                "v": "showMachines",
+                "vt": "str"
+            },
+            {
+                "p": "group",
+                "v": "Machines",
+                "vt": "str"
+            },
+            {
+                "p": "payload",
+                "v": "",
+                "vt": "date"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 550,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "inject-alarms-33cd3d6a",
+        "type": "inject",
+        "z": "reflink-examples-flow",
+        "name": "Show Alarms",
+        "props": [
+            {
+                "p": "action",
+                "v": "showAlarms",
+                "vt": "str"
+            },
+            {
+                "p": "group",
+                "v": "Alarms",
+                "vt": "str"
+            },
+            {
+                "p": "payload",
+                "v": "",
+                "vt": "date"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    }
+]

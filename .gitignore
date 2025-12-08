@@ -1,0 +1,40 @@
+# Node-RED credentials (encrypted but should not be in repo)
+flows_cred.json
+
+# Node modules
+node_modules/
+
+# Session and config files (runtime generated)
+.sessions.json
+.config.*.json
+.config.*.json.backup
+.flows.json.backup
+
+# Context storage
+context/
+
+# Backup files
+*.backup
+*.backup-*
+flows.json.backup*
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+

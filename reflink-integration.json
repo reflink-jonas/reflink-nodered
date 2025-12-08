@@ -1,0 +1,167 @@
+{
+    "name": "Reflink Message Standard v1.0",
+    "version": "1.0.0",
+    "description": "Standardiserat meddelandeformat för Reflink OS Node-RED flöden",
+    "author": "Reflink OS Team",
+    "created": "2025-12-08",
+    
+    "actions": {
+        "controllers": {
+            "showControllers": {
+                "description": "Visa alla regulatorer",
+                "group": "Controllers",
+                "payload": "array of controller objects"
+            },
+            "showKylar": {
+                "description": "Visa kylar (setpoint >= 0°C)",
+                "group": "Kylar",
+                "payload": "array of controller objects"
+            },
+            "showFrysar": {
+                "description": "Visa frysar (setpoint < 0°C)",
+                "group": "Frysar",
+                "payload": "array of controller objects"
+            },
+            "setSetpoint": {
+                "description": "Ändra börvärde på regulator",
+                "group": "Controllers",
+                "payload": { "controllerId": "string", "newSetpoint": "number" }
+            },
+            "togglePower": {
+                "description": "Slå på/av regulator",
+                "group": "Controllers",
+                "payload": { "controllerId": "string", "enabled": "boolean" }
+            }
+        },
+        
+        "machines": {
+            "showMachines": {
+                "description": "Visa alla maskiner/aggregat",
+                "group": "Machines",
+                "payload": "array of machine objects"
+            },
+            "showMachineGauges": {
+                "description": "Visa maskin-gauges med frekvens",
+                "group": "Machines",
+                "payload": "array of gauge values"
+            },
+            "toggleMachine": {
+                "description": "Slå på/av maskin",
+                "group": "Machines",
+                "payload": { "machineId": "string", "enabled": "boolean" }
+            }
+        },
+        
+        "alarms": {
+            "showAlarms": {
+                "description": "Visa aktiva larm",
+                "group": "Alarms",
+                "payload": "array of alarm objects"
+            },
+            "showAlarmSummary": {
+                "description": "Visa larmsammanfattning",
+                "group": "Alarms",
+                "payload": "string summary text"
+            },
+            "latestAlarms": {
+                "description": "Visa senaste 5 larm",
+                "group": "Alarms",
+                "payload": "array of alarm objects"
+            },
+            "acknowledgeAlarm": {
+                "description": "Kvittera larm",
+                "group": "Alarms",
+                "payload": { "alarmId": "string", "acknowledgedBy": "string" }
+            },
+            "createAlarms": {
+                "description": "Skapa/initiera larmdata",
+                "group": "Alarms",
+                "payload": "array of alarm objects"
+            }
+        },
+        
+        "nodes": {
+            "showNodes": {
+                "description": "Visa alla konfigurerade noder/enheter",
+                "group": "Nodes",
+                "payload": "array of node objects"
+            },
+            "addNode": {
+                "description": "Lägg till ny nod",
+                "group": "Nodes",
+                "payload": { "category": "string", "name": "string", "brand": "string", "model": "string", "address": "number" }
+            },
+            "updateNode": {
+                "description": "Uppdatera befintlig nod",
+                "group": "Nodes",
+                "payload": { "nodeId": "string", "updates": "object" }
+            },
+            "deleteNode": {
+                "description": "Ta bort nod",
+                "group": "Nodes",
+                "payload": { "nodeId": "string" }
+            }
+        },
+        
+        "system": {
+            "refresh": {
+                "description": "Uppdatera/hämta ny data",
+                "group": "System",
+                "payload": "any"
+            },
+            "navigate": {
+                "description": "Navigera till sida",
+                "group": "System",
+                "payload": { "page": "string" }
+            },
+            "exportBackup": {
+                "description": "Exportera konfiguration",
+                "group": "System",
+                "payload": "configuration object"
+            },
+            "initTestData": {
+                "description": "Initiera testdata vid startup",
+                "group": "System",
+                "payload": "any"
+            }
+        },
+        
+        "refboard": {
+            "updateRefboard": {
+                "description": "Uppdatera RefBoard-visning",
+                "group": "Refboard",
+                "payload": "any"
+            }
+        }
+    },
+    
+    "groups": {
+        "Controllers": "Alla regulatorer (kylar + frysar)",
+        "Kylar": "Kylregulatorer (setpoint >= 0°C)",
+        "Frysar": "Frysregulatorer (setpoint < 0°C)",
+        "Machines": "Maskiner och aggregat",
+        "Alarms": "Larmsystem",
+        "Nodes": "Nodkonfiguration",
+        "System": "Systemfunktioner",
+        "Network": "Nätverksfunktioner",
+        "Refboard": "RefBoard-specifik logik",
+        "Data": "Generell datahantering"
+    },
+    
+    "safeHeaderTemplate": "// 🛡️ SAFE HEADER - Reflink Message Standard\nmsg.action = msg.action || 'ACTION_NAME';\nmsg.group = msg.group || 'GROUP_NAME';",
+    
+    "examples": {
+        "injectNode": {
+            "props": [
+                { "p": "action", "v": "showControllers", "vt": "str" },
+                { "p": "group", "v": "Controllers", "vt": "str" },
+                { "p": "payload", "v": "", "vt": "date" }
+            ]
+        },
+        
+        "functionNodeMinimal": "// 🛡️ SAFE HEADER\nmsg.action = msg.action || 'processData';\nmsg.group = msg.group || 'Data';\n\n// Din logik här\nconst data = global.get('someData') || [];\nmsg.payload = data;\n\nreturn msg;",
+        
+        "functionNodeComplete": "// ═══════════════════════════════════════════════════════════════════════════\n// EXAMPLE HANDLER\n// ═══════════════════════════════════════════════════════════════════════════\n\n// 🛡️ SAFE HEADER - Alltid först\nmsg.action = msg.action || 'showData';\nmsg.group = msg.group || 'Data';\n\n// 📦 Hämta data med fallback\nconst data = global.get('myData') || [];\n\n// 🔄 Filtrera/bearbeta baserat på action\nlet result;\nswitch (msg.action) {\n    case 'showFiltered':\n        result = data.filter(d => d.active);\n        break;\n    case 'showData':\n    default:\n        result = data;\n        break;\n}\n\n// 📊 Bygg response\nmsg.data = result;\nmsg.payload = result;\nmsg.count = result.length;\n\n// 📈 Status för debugging\nnode.status({ \n    fill: result.length > 0 ? 'green' : 'yellow', \n    shape: 'dot', \n    text: `${msg.action}: ${result.length} st` \n});\n\nreturn msg;"
+    }
+}
+

@@ -1,0 +1,174 @@
+{
+    "version": "1.0",
+    "description": "Exempel på msg.action/msg.group användning i Reflink OS",
+    
+    "controllersExamples": [
+        {
+            "action": "showControllers",
+            "group": "Controllers",
+            "description": "Visa alla regulatorer (kylar + frysar)",
+            "triggerExample": {
+                "type": "inject",
+                "props": [
+                    { "p": "action", "v": "showControllers", "vt": "str" },
+                    { "p": "group", "v": "Controllers", "vt": "str" }
+                ]
+            },
+            "expectedOutput": {
+                "msg.controllers": "Array med alla regulatorer",
+                "msg.payload": "Samma som msg.controllers",
+                "msg.count": "Antal regulatorer"
+            }
+        },
+        {
+            "action": "showKylar",
+            "group": "Kylar",
+            "description": "Visa endast kylar (setpoint >= 0°C)",
+            "filterLogic": "controller.setpoint >= 0"
+        },
+        {
+            "action": "showFrysar",
+            "group": "Frysar",
+            "description": "Visa endast frysar (setpoint < 0°C)",
+            "filterLogic": "controller.setpoint < 0"
+        }
+    ],
+    
+    "machinesExamples": [
+        {
+            "action": "showMachines",
+            "group": "Machines",
+            "description": "Visa alla maskiner med frekvens",
+            "expectedOutput": {
+                "msg.machines": "Array med maskiner inkl. freqHz property",
+                "msg.payload": "Samma som msg.machines",
+                "msg.count": "Antal maskiner"
+            }
+        },
+        {
+            "action": "showMachineGauges",
+            "group": "Machines",
+            "description": "Visa maskin-gauges",
+            "note": "Returnerar array med 3 gauge-meddelanden för anslutning till ui-gauge"
+        }
+    ],
+    
+    "alarmsExamples": [
+        {
+            "action": "showAlarms",
+            "group": "Alarms",
+            "description": "Visa alla aktiva larm",
+            "expectedOutput": {
+                "msg.alarms": "Array med aktiva larm",
+                "msg.alarmsSummary": "Objekt med total, critical, warning, info",
+                "msg.count": "Antal aktiva larm"
+            }
+        },
+        {
+            "action": "showAlarmSummary",
+            "group": "Alarms",
+            "description": "Visa sammanfattning som text",
+            "expectedOutput": {
+                "msg.payload": "String: '✅ Inga aktiva larm' eller '⚠️ X larm • Y kritiska...'"
+            }
+        },
+        {
+            "action": "latestAlarms",
+            "group": "Alarms",
+            "description": "Visa senaste 5 larm",
+            "expectedOutput": {
+                "msg.payload": "Array med senaste 5 larm sorterade på timestamp"
+            }
+        },
+        {
+            "action": "acknowledgeAlarm",
+            "group": "Alarms",
+            "description": "Kvittera ett larm",
+            "requiredInput": {
+                "msg.alarmId": "ID på larmet som ska kvitteras",
+                "msg.acknowledgedBy": "Vem som kvitterade (optional, default 'Okänd')"
+            }
+        }
+    ],
+    
+    "nodesExamples": [
+        {
+            "action": "showNodes",
+            "group": "Nodes",
+            "description": "Visa alla konfigurerade noder/enheter",
+            "expectedOutput": {
+                "msg.nodes": "Array med alla noder från global.enheter",
+                "msg.nodeCount": "Antal noder"
+            }
+        },
+        {
+            "action": "addNode",
+            "group": "Nodes",
+            "description": "Lägg till ny nod",
+            "requiredInput": {
+                "msg.payload.category": "Kylrum, Frysrum, Aggregat, etc.",
+                "msg.payload.name": "Enhetsnamn",
+                "msg.payload.brand": "Danfoss, Carrier, etc.",
+                "msg.payload.model": "AK-CC55, etc.",
+                "msg.payload.address": "Modbus-adress (number)"
+            }
+        }
+    ],
+    
+    "systemExamples": [
+        {
+            "action": "refresh",
+            "group": "System",
+            "description": "Trigger för att uppdatera data",
+            "note": "Generisk refresh-action som kan trigga omläsning"
+        },
+        {
+            "action": "initTestData",
+            "group": "System",
+            "description": "Initiera testdata vid startup",
+            "note": "Används av inject-noder med once: true"
+        }
+    ],
+    
+    "bestPractices": [
+        {
+            "rule": "Alltid Safe Header först",
+            "example": "msg.action = msg.action || 'defaultAction';\nmsg.group = msg.group || 'DefaultGroup';"
+        },
+        {
+            "rule": "Använd fallback för global.get",
+            "example": "const data = global.get('myData') || [];"
+        },
+        {
+            "rule": "Sätt node.status för debugging",
+            "example": "node.status({ fill: 'green', shape: 'dot', text: `${msg.action}: ${result.length} st` });"
+        },
+        {
+            "rule": "Returnera alltid count",
+            "example": "msg.count = result.length;"
+        },
+        {
+            "rule": "Dubbla outputs (payload + typed property)",
+            "example": "msg.controllers = result;\nmsg.payload = result;"
+        }
+    ],
+    
+    "antiPatterns": [
+        {
+            "problem": "Direkt åtkomst utan validering",
+            "bad": "const value = msg.payload.someValue;",
+            "good": "const value = (msg.payload && msg.payload.someValue) || 'default';"
+        },
+        {
+            "problem": "Saknad action/group",
+            "bad": "// Ingen Safe Header\nconst data = getData();",
+            "good": "// 🛡️ SAFE HEADER\nmsg.action = msg.action || 'getData';\nmsg.group = msg.group || 'Data';\nconst data = getData();"
+        },
+        {
+            "problem": "Hårdkodade värden istället för msg properties",
+            "bad": "msg.payload = 'showKylar';  // Använd inte payload för action!",
+            "good": "msg.action = 'showKylar';"
+        }
+    ]
+}
+

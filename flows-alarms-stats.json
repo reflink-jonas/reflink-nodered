@@ -1,0 +1,462 @@
+[
+    {
+        "id": "alarms-stats-flow",
+        "type": "tab",
+        "label": "Larm & Statistik",
+        "disabled": false,
+        "info": "Reflink OS Larm & Statistik modul - Dashboard 2.0 komponenter"
+    },
+    {
+        "id": "alarms-page",
+        "type": "ui-page",
+        "name": "LARM",
+        "ui": "45086322eb4ebcac",
+        "path": "/alarms",
+        "icon": "mdi-bell-alert",
+        "layout": "grid",
+        "theme": "c41cf9962fc40517",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 7,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "stats-page",
+        "type": "ui-page",
+        "name": "STATISTIK",
+        "ui": "45086322eb4ebcac",
+        "path": "/statistics",
+        "icon": "mdi-chart-line",
+        "layout": "grid",
+        "theme": "c41cf9962fc40517",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 8,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "alarms-group-main",
+        "type": "ui-group",
+        "name": "Larm",
+        "page": "alarms-page",
+        "width": "12",
+        "height": "1",
+        "order": 1,
+        "showTitle": false,
+        "className": "",
+        "visible": true,
+        "disabled": false,
+        "groupType": "default"
+    },
+    {
+        "id": "stats-group-main",
+        "type": "ui-group",
+        "name": "Statistik",
+        "page": "stats-page",
+        "width": "12",
+        "height": "1",
+        "order": 1,
+        "showTitle": false,
+        "className": "",
+        "visible": true,
+        "disabled": false,
+        "groupType": "default"
+    },
+    {
+        "id": "alarms-main-component",
+        "type": "ui-template",
+        "z": "alarms-stats-flow",
+        "group": "alarms-group-main",
+        "page": "",
+        "ui": "",
+        "name": "Larm Modul",
+        "order": 1,
+        "width": "12",
+        "height": "20",
+        "head": "",
+        "format": "<template>\n  <div class=\"alarms-module\">\n    <!-- Tabs -->\n    <v-tabs v-model=\"activeTab\" bg-color=\"transparent\" color=\"#1BBFFF\">\n      <v-tab value=\"active\">\n        <v-badge :content=\"activeAlarms.length\" :color=\"criticalCount > 0 ? 'error' : 'primary'\" inline>\n          Aktiva Larm\n        </v-badge>\n      </v-tab>\n      <v-tab value=\"history\">Larmhistorik</v-tab>\n      <v-tab value=\"incident\" v-if=\"selectedIncident\">Incident</v-tab>\n      <v-tab value=\"service\">Service-läge</v-tab>\n    </v-tabs>\n\n    <v-window v-model=\"activeTab\">\n      <!-- AKTIVA LARM -->\n      <v-window-item value=\"active\">\n        <div class=\"tab-content\">\n          <!-- Filter -->\n          <v-row class=\"mb-4\">\n            <v-col cols=\"12\" md=\"6\">\n              <v-btn-toggle v-model=\"severityFilter\" multiple density=\"compact\">\n                <v-btn value=\"critical\" color=\"error\" variant=\"tonal\" size=\"small\">\n                  <v-icon size=\"small\">mdi-alert-circle</v-icon> Kritiska ({{ bySeverity.critical }})\n                </v-btn>\n                <v-btn value=\"warning\" color=\"warning\" variant=\"tonal\" size=\"small\">\n                  <v-icon size=\"small\">mdi-alert</v-icon> Varningar ({{ bySeverity.warning }})\n                </v-btn>\n                <v-btn value=\"info\" color=\"info\" variant=\"tonal\" size=\"small\">\n                  <v-icon size=\"small\">mdi-information</v-icon> Info ({{ bySeverity.info }})\n                </v-btn>\n              </v-btn-toggle>\n            </v-col>\n            <v-col cols=\"12\" md=\"4\">\n              <v-text-field v-model=\"searchText\" prepend-inner-icon=\"mdi-magnify\" label=\"Sök enhet/text\" density=\"compact\" clearable hide-details></v-text-field>\n            </v-col>\n            <v-col cols=\"12\" md=\"2\">\n              <v-btn color=\"success\" block @click=\"refreshAlarms\" :loading=\"loading\">\n                <v-icon>mdi-refresh</v-icon>\n              </v-btn>\n            </v-col>\n          </v-row>\n\n          <!-- Alarm List -->\n          <v-card v-if=\"filteredAlarms.length === 0\" class=\"empty-state\">\n            <v-card-text class=\"text-center py-8\">\n              <v-icon size=\"64\" color=\"success\">mdi-check-circle-outline</v-icon>\n              <h3 class=\"mt-4\">Inga aktiva larm</h3>\n              <p class=\"text-caption\">Alla system fungerar normalt</p>\n            </v-card-text>\n          </v-card>\n\n          <v-card v-for=\"alarm in filteredAlarms\" :key=\"alarm.id\" class=\"alarm-card mb-3\" :class=\"'severity-' + alarm.severity\">\n            <v-card-text class=\"d-flex align-center\">\n              <div class=\"alarm-indicator\" :class=\"alarm.severity\"></div>\n              <div class=\"alarm-content flex-grow-1\">\n                <div class=\"d-flex align-center mb-1\">\n                  <v-chip :color=\"getSeverityColor(alarm.severity)\" size=\"x-small\" class=\"mr-2\">\n                    {{ getSeverityLabel(alarm.severity) }}\n                  </v-chip>\n                  <span class=\"alarm-time\">{{ formatTime(alarm.timestamp) }}</span>\n                  <v-chip v-if=\"alarm.hitCount > 1\" size=\"x-small\" color=\"warning\" class=\"ml-2\">\n                    x{{ alarm.hitCount }}\n                  </v-chip>\n                </div>\n                <div class=\"alarm-device\">{{ alarm.device }}</div>\n                <div class=\"alarm-message\">{{ alarm.message }}</div>\n                <v-chip v-if=\"alarm.code\" size=\"x-small\" variant=\"outlined\" class=\"mt-1\">Kod: {{ alarm.code }}</v-chip>\n              </div>\n              <v-tooltip :text=\"alarm.description || 'Ingen beskrivning'\" location=\"top\">\n                <template v-slot:activator=\"{ props }\">\n                  <v-btn v-bind=\"props\" icon size=\"small\" variant=\"text\" class=\"mr-2\">\n                    <v-icon>mdi-information-outline</v-icon>\n                  </v-btn>\n                </template>\n              </v-tooltip>\n              <v-btn color=\"success\" variant=\"tonal\" @click=\"acknowledgeAlarm(alarm)\" :loading=\"ackLoading === alarm.id\">\n                <v-icon left>mdi-check</v-icon> Kvittera\n              </v-btn>\n            </v-card-text>\n          </v-card>\n\n          <!-- Bulk Actions -->\n          <v-row v-if=\"activeAlarms.length > 0\" class=\"mt-4\">\n            <v-col>\n              <v-btn color=\"success\" variant=\"outlined\" @click=\"acknowledgeAll()\">\n                <v-icon left>mdi-check-all</v-icon> Kvittera alla\n              </v-btn>\n            </v-col>\n          </v-row>\n        </div>\n      </v-window-item>\n\n      <!-- LARMHISTORIK -->\n      <v-window-item value=\"history\">\n        <div class=\"tab-content\">\n          <!-- Filter -->\n          <v-row class=\"mb-4\">\n            <v-col cols=\"12\" md=\"3\">\n              <v-text-field v-model=\"historyFilters.start\" type=\"date\" label=\"Från datum\" density=\"compact\" hide-details></v-text-field>\n            </v-col>\n            <v-col cols=\"12\" md=\"3\">\n              <v-text-field v-model=\"historyFilters.end\" type=\"date\" label=\"Till datum\" density=\"compact\" hide-details></v-text-field>\n            </v-col>\n            <v-col cols=\"12\" md=\"2\">\n              <v-select v-model=\"historyFilters.severity\" :items=\"severityOptions\" label=\"Allvarlighetsgrad\" density=\"compact\" clearable hide-details></v-select>\n            </v-col>\n            <v-col cols=\"12\" md=\"2\">\n              <v-text-field v-model=\"historyFilters.device\" label=\"Enhet\" density=\"compact\" clearable hide-details></v-text-field>\n            </v-col>\n            <v-col cols=\"12\" md=\"2\">\n              <v-btn color=\"primary\" block @click=\"loadHistory\" :loading=\"historyLoading\">\n                <v-icon>mdi-magnify</v-icon> Sök\n              </v-btn>\n            </v-col>\n          </v-row>\n\n          <v-checkbox v-model=\"historyFilters.unacknowledgedOnly\" label=\"Visa bara okvitterade\" density=\"compact\" hide-details class=\"mb-4\"></v-checkbox>\n\n          <!-- History Table -->\n          <v-data-table :headers=\"historyHeaders\" :items=\"historyItems\" :loading=\"historyLoading\" class=\"history-table\" density=\"compact\" :items-per-page=\"20\">\n            <template v-slot:item.timestamp=\"{ item }\">\n              {{ formatDateTime(item.timestamp) }}\n            </template>\n            <template v-slot:item.severity=\"{ item }\">\n              <v-chip :color=\"getSeverityColor(item.severity)\" size=\"x-small\">\n                {{ getSeverityLabel(item.severity) }}\n              </v-chip>\n            </template>\n            <template v-slot:item.durationFormatted=\"{ item }\">\n              {{ item.durationFormatted || '-' }}\n            </template>\n            <template v-slot:item.acknowledgedBy=\"{ item }\">\n              {{ item.acknowledgedBy || '-' }}\n            </template>\n            <template v-slot:item.actions=\"{ item }\">\n              <v-btn icon size=\"x-small\" @click=\"openIncident(item)\">\n                <v-icon>mdi-eye</v-icon>\n              </v-btn>\n            </template>\n          </v-data-table>\n\n          <v-btn color=\"primary\" variant=\"outlined\" class=\"mt-4\" @click=\"exportHistory\">\n            <v-icon left>mdi-download</v-icon> Exportera CSV\n          </v-btn>\n        </div>\n      </v-window-item>\n\n      <!-- INCIDENT-VY -->\n      <v-window-item value=\"incident\">\n        <div class=\"tab-content\" v-if=\"selectedIncident\">\n          <v-btn variant=\"text\" @click=\"activeTab = 'history'\" class=\"mb-4\">\n            <v-icon left>mdi-arrow-left</v-icon> Tillbaka till historik\n          </v-btn>\n\n          <v-row>\n            <!-- Sammanfattning -->\n            <v-col cols=\"12\" md=\"4\">\n              <v-card class=\"incident-summary\">\n                <v-card-title>\n                  <v-icon class=\"mr-2\">mdi-file-document-outline</v-icon>\n                  Incidentsammanfattning\n                </v-card-title>\n                <v-card-text>\n                  <v-list density=\"compact\" class=\"bg-transparent\">\n                    <v-list-item>\n                      <v-list-item-title>Larmtyp</v-list-item-title>\n                      <v-list-item-subtitle>\n                        <v-chip :color=\"getSeverityColor(incidentData?.alarm?.severity)\" size=\"small\">\n                          {{ getSeverityLabel(incidentData?.alarm?.severity) }}\n                        </v-chip>\n                      </v-list-item-subtitle>\n                    </v-list-item>\n                    <v-list-item>\n                      <v-list-item-title>Enhet</v-list-item-title>\n                      <v-list-item-subtitle>{{ incidentData?.alarm?.device }}</v-list-item-subtitle>\n                    </v-list-item>\n                    <v-list-item>\n                      <v-list-item-title>Larmtext</v-list-item-title>\n                      <v-list-item-subtitle>{{ incidentData?.alarm?.message }}</v-list-item-subtitle>\n                    </v-list-item>\n                    <v-list-item>\n                      <v-list-item-title>Starttid</v-list-item-title>\n                      <v-list-item-subtitle>{{ formatDateTime(incidentData?.alarm?.timestamp) }}</v-list-item-subtitle>\n                    </v-list-item>\n                    <v-list-item>\n                      <v-list-item-title>Sluttid</v-list-item-title>\n                      <v-list-item-subtitle>{{ formatDateTime(incidentData?.alarm?.endedAt) }}</v-list-item-subtitle>\n                    </v-list-item>\n                    <v-list-item>\n                      <v-list-item-title>Varaktighet</v-list-item-title>\n                      <v-list-item-subtitle>{{ incidentData?.alarm?.durationFormatted || '-' }}</v-list-item-subtitle>\n                    </v-list-item>\n                    <v-list-item>\n                      <v-list-item-title>Kvitterad av</v-list-item-title>\n                      <v-list-item-subtitle>{{ incidentData?.alarm?.acknowledgedBy || '-' }}</v-list-item-subtitle>\n                    </v-list-item>\n                  </v-list>\n\n                  <v-divider class=\"my-3\"></v-divider>\n\n                  <!-- Kommentarer -->\n                  <h4 class=\"mb-2\">Kommentarer</h4>\n                  <div v-if=\"incidentData?.alarm?.comments?.length\">\n                    <div v-for=\"comment in incidentData.alarm.comments\" :key=\"comment.id\" class=\"comment-item\">\n                      <div class=\"comment-meta\">{{ comment.author }} - {{ formatDateTime(comment.timestamp) }}</div>\n                      <div class=\"comment-text\">{{ comment.text }}</div>\n                    </div>\n                  </div>\n                  <p v-else class=\"text-caption\">Inga kommentarer</p>\n\n                  <v-textarea v-model=\"newComment\" label=\"Lägg till kommentar\" rows=\"2\" density=\"compact\" class=\"mt-3\"></v-textarea>\n                  <v-btn color=\"primary\" size=\"small\" @click=\"addComment\" :loading=\"commentLoading\" :disabled=\"!newComment\">\n                    <v-icon left size=\"small\">mdi-plus</v-icon> Lägg till\n                  </v-btn>\n                </v-card-text>\n              </v-card>\n            </v-col>\n\n            <!-- Graf -->\n            <v-col cols=\"12\" md=\"8\">\n              <v-card class=\"incident-chart\">\n                <v-card-title>\n                  <v-icon class=\"mr-2\">mdi-chart-line</v-icon>\n                  Mätvärden (30 min före + 30 min efter)\n                </v-card-title>\n                <v-card-text>\n                  <div class=\"chart-container\" ref=\"chartContainer\">\n                    <canvas ref=\"incidentChart\"></canvas>\n                  </div>\n                  <div class=\"chart-legend\">\n                    <span v-for=\"series in incidentData?.measurements?.series\" :key=\"series.key\" class=\"legend-item\">\n                      <span class=\"legend-color\" :style=\"{backgroundColor: series.color}\"></span>\n                      {{ series.name }} ({{ series.unit }})\n                    </span>\n                  </div>\n                </v-card-text>\n              </v-card>\n\n              <!-- Export -->\n              <v-row class=\"mt-4\">\n                <v-col>\n                  <v-btn color=\"primary\" variant=\"outlined\" @click=\"exportIncident('csv')\">\n                    <v-icon left>mdi-file-delimited</v-icon> Exportera CSV\n                  </v-btn>\n                  <v-btn color=\"primary\" variant=\"outlined\" class=\"ml-2\" @click=\"exportIncident('json')\">\n                    <v-icon left>mdi-code-json</v-icon> Exportera JSON\n                  </v-btn>\n                </v-col>\n              </v-row>\n            </v-col>\n          </v-row>\n        </div>\n      </v-window-item>\n\n      <!-- SERVICE-LÄGE -->\n      <v-window-item value=\"service\">\n        <div class=\"tab-content\">\n          <v-row class=\"mb-4\">\n            <v-col cols=\"12\" md=\"8\">\n              <v-text-field v-model=\"serviceSearch\" prepend-inner-icon=\"mdi-magnify\" label=\"Sök enhet\" density=\"compact\" clearable hide-details></v-text-field>\n            </v-col>\n            <v-col cols=\"12\" md=\"4\">\n              <v-btn color=\"primary\" @click=\"refreshServiceMode\" :loading=\"serviceLoading\">\n                <v-icon left>mdi-refresh</v-icon> Uppdatera\n              </v-btn>\n            </v-col>\n          </v-row>\n\n          <!-- Active Service Modes -->\n          <v-alert v-if=\"devicesInService.length > 0\" type=\"info\" variant=\"tonal\" class=\"mb-4\">\n            <v-icon>mdi-wrench</v-icon>\n            {{ devicesInService.length }} enhet(er) i service-läge\n          </v-alert>\n\n          <!-- Device List -->\n          <v-card v-for=\"device in filteredServiceDevices\" :key=\"device.deviceId\" class=\"service-device-card mb-3\" :class=\"{'in-service': device.serviceMode}\">\n            <v-card-text class=\"d-flex align-center\">\n              <v-icon v-if=\"device.serviceMode\" color=\"info\" class=\"mr-3\">mdi-wrench</v-icon>\n              <v-icon v-else class=\"mr-3\">mdi-cube-outline</v-icon>\n              \n              <div class=\"flex-grow-1\">\n                <div class=\"device-name\">{{ device.name || device.deviceId }}</div>\n                <div class=\"device-info\">\n                  <span v-if=\"device.model\">{{ device.model }}</span>\n                  <span v-if=\"device.address\"> @ {{ device.address }}</span>\n                </div>\n                <div v-if=\"device.serviceMode\" class=\"service-info\">\n                  <v-chip size=\"x-small\" color=\"info\">Service aktivt</v-chip>\n                  <span class=\"ml-2\">Slutar: {{ formatDateTime(device.serviceEndsAt) }}</span>\n                  <span v-if=\"device.remainingMinutes\" class=\"ml-2\">({{ device.remainingMinutes }} min kvar)</span>\n                </div>\n              </div>\n\n              <v-switch v-model=\"device.serviceMode\" color=\"info\" hide-details @change=\"toggleServiceMode(device)\" :loading=\"serviceToggleLoading === device.deviceId\"></v-switch>\n            </v-card-text>\n\n            <!-- Duration picker when enabling -->\n            <v-expand-transition>\n              <v-card-text v-if=\"serviceDurationPicker === device.deviceId\" class=\"pt-0\">\n                <v-divider class=\"mb-3\"></v-divider>\n                <v-row>\n                  <v-col cols=\"12\" md=\"6\">\n                    <v-select v-model=\"serviceDuration\" :items=\"durationPresets\" label=\"Varaktighet\" density=\"compact\"></v-select>\n                  </v-col>\n                  <v-col cols=\"12\" md=\"6\" v-if=\"serviceDuration === 'custom'\">\n                    <v-text-field v-model=\"customEndTime\" type=\"datetime-local\" label=\"Sluttid\" density=\"compact\"></v-text-field>\n                  </v-col>\n                </v-row>\n                <v-btn color=\"info\" @click=\"confirmServiceMode(device)\">Aktivera service-läge</v-btn>\n                <v-btn variant=\"text\" @click=\"serviceDurationPicker = null\" class=\"ml-2\">Avbryt</v-btn>\n              </v-card-text>\n            </v-expand-transition>\n          </v-card>\n        </div>\n      </v-window-item>\n    </v-window>\n\n    <!-- Ack Dialog -->\n    <v-dialog v-model=\"ackDialog\" max-width=\"400\">\n      <v-card>\n        <v-card-title>Kvittera larm</v-card-title>\n        <v-card-text>\n          <p class=\"mb-3\">{{ ackAlarm?.message }}</p>\n          <v-text-field v-model=\"ackBy\" label=\"Kvitterat av\" density=\"compact\"></v-text-field>\n          <v-textarea v-model=\"ackComment\" label=\"Kommentar (valfritt)\" rows=\"2\" density=\"compact\"></v-textarea>\n        </v-card-text>\n        <v-card-actions>\n          <v-spacer></v-spacer>\n          <v-btn @click=\"ackDialog = false\">Avbryt</v-btn>\n          <v-btn color=\"success\" @click=\"confirmAck\" :loading=\"ackLoading\">Kvittera</v-btn>\n        </v-card-actions>\n      </v-card>\n    </v-dialog>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      activeTab: 'active',\n      loading: false,\n      activeAlarms: [],\n      severityFilter: ['critical', 'warning', 'info'],\n      searchText: '',\n      \n      // Ack\n      ackDialog: false,\n      ackAlarm: null,\n      ackBy: '',\n      ackComment: '',\n      ackLoading: null,\n      \n      // History\n      historyLoading: false,\n      historyItems: [],\n      historyFilters: {\n        start: '',\n        end: '',\n        severity: null,\n        device: '',\n        unacknowledgedOnly: false\n      },\n      historyHeaders: [\n        { title: 'Tidpunkt', key: 'timestamp', width: '150px' },\n        { title: 'Enhet', key: 'device' },\n        { title: 'Allvarlighet', key: 'severity', width: '100px' },\n        { title: 'Meddelande', key: 'message' },\n        { title: 'Varaktighet', key: 'durationFormatted', width: '100px' },\n        { title: 'Kvitterad av', key: 'acknowledgedBy', width: '120px' },\n        { title: '', key: 'actions', width: '60px', sortable: false }\n      ],\n      severityOptions: [\n        { title: 'Kritiskt', value: 'critical' },\n        { title: 'Varning', value: 'warning' },\n        { title: 'Info', value: 'info' }\n      ],\n      \n      // Incident\n      selectedIncident: null,\n      incidentData: null,\n      incidentLoading: false,\n      newComment: '',\n      commentLoading: false,\n      chart: null,\n      \n      // Service Mode\n      serviceLoading: false,\n      serviceDevices: [],\n      serviceSearch: '',\n      serviceDurationPicker: null,\n      serviceDuration: '1h',\n      customEndTime: '',\n      serviceToggleLoading: null,\n      durationPresets: [\n        { title: '15 minuter', value: '15min' },\n        { title: '30 minuter', value: '30min' },\n        { title: '1 timme', value: '1h' },\n        { title: '3 timmar', value: '3h' },\n        { title: '6 timmar', value: '6h' },\n        { title: '12 timmar', value: '12h' },\n        { title: '24 timmar', value: '24h' },\n        { title: 'Anpassad', value: 'custom' }\n      ]\n    }\n  },\n  \n  computed: {\n    filteredAlarms() {\n      return this.activeAlarms.filter(a => {\n        if (!this.severityFilter.includes(a.severity)) return false;\n        if (this.searchText) {\n          const search = this.searchText.toLowerCase();\n          return a.device.toLowerCase().includes(search) || \n                 a.message.toLowerCase().includes(search);\n        }\n        return true;\n      });\n    },\n    bySeverity() {\n      const counts = { critical: 0, warning: 0, info: 0 };\n      this.activeAlarms.forEach(a => counts[a.severity]++);\n      return counts;\n    },\n    criticalCount() {\n      return this.bySeverity.critical;\n    },\n    devicesInService() {\n      return this.serviceDevices.filter(d => d.serviceMode);\n    },\n    filteredServiceDevices() {\n      if (!this.serviceSearch) return this.serviceDevices;\n      const search = this.serviceSearch.toLowerCase();\n      return this.serviceDevices.filter(d => \n        (d.name || d.deviceId).toLowerCase().includes(search) ||\n        (d.model || '').toLowerCase().includes(search)\n      );\n    }\n  },\n  \n  mounted() {\n    this.refreshAlarms();\n    this.refreshServiceMode();\n    this.autoRefresh = setInterval(() => {\n      if (this.activeTab === 'active') this.refreshAlarms();\n      if (this.activeTab === 'service') this.refreshServiceMode();\n    }, 30000);\n  },\n  \n  beforeUnmount() {\n    if (this.autoRefresh) clearInterval(this.autoRefresh);\n    if (this.chart) this.chart.destroy();\n  },\n  \n  methods: {\n    async refreshAlarms() {\n      this.loading = true;\n      try {\n        const res = await fetch('/api/alarms/active');\n        const data = await res.json();\n        if (data.success) this.activeAlarms = data.data;\n      } catch (e) { console.error(e); }\n      this.loading = false;\n    },\n    \n    getSeverityColor(severity) {\n      const colors = { critical: 'error', warning: 'warning', info: 'info' };\n      return colors[severity] || 'grey';\n    },\n    \n    getSeverityLabel(severity) {\n      const labels = { critical: 'Kritiskt', warning: 'Varning', info: 'Info' };\n      return labels[severity] || severity;\n    },\n    \n    formatTime(ts) {\n      if (!ts) return '-';\n      return new Date(ts).toLocaleTimeString('sv-SE');\n    },\n    \n    formatDateTime(ts) {\n      if (!ts) return '-';\n      return new Date(ts).toLocaleString('sv-SE');\n    },\n    \n    acknowledgeAlarm(alarm) {\n      this.ackAlarm = alarm;\n      this.ackBy = '';\n      this.ackComment = '';\n      this.ackDialog = true;\n    },\n    \n    async confirmAck() {\n      if (!this.ackAlarm) return;\n      this.ackLoading = this.ackAlarm.id;\n      try {\n        await fetch('/api/alarms/ack', {\n          method: 'POST',\n          headers: { 'Content-Type': 'application/json' },\n          body: JSON.stringify({\n            alarmId: this.ackAlarm.id,\n            acknowledgedBy: this.ackBy || 'Okänd',\n            comment: this.ackComment\n          })\n        });\n        this.ackDialog = false;\n        this.refreshAlarms();\n      } catch (e) { console.error(e); }\n      this.ackLoading = null;\n    },\n    \n    async acknowledgeAll(severity) {\n      if (!confirm('Kvittera alla larm?')) return;\n      try {\n        await fetch('/api/alarms/ack-all', {\n          method: 'POST',\n          headers: { 'Content-Type': 'application/json' },\n          body: JSON.stringify({ acknowledgedBy: 'Bulk', severity })\n        });\n        this.refreshAlarms();\n      } catch (e) { console.error(e); }\n    },\n    \n    async loadHistory() {\n      this.historyLoading = true;\n      try {\n        const params = new URLSearchParams();\n        if (this.historyFilters.start) params.append('start', this.historyFilters.start);\n        if (this.historyFilters.end) params.append('end', this.historyFilters.end);\n        if (this.historyFilters.severity) params.append('severity', this.historyFilters.severity);\n        if (this.historyFilters.device) params.append('device', this.historyFilters.device);\n        if (this.historyFilters.unacknowledgedOnly) params.append('unacknowledgedOnly', 'true');\n        params.append('limit', '500');\n        \n        const res = await fetch('/api/alarms/history?' + params);\n        const data = await res.json();\n        if (data.success) this.historyItems = data.data;\n      } catch (e) { console.error(e); }\n      this.historyLoading = false;\n    },\n    \n    async openIncident(alarm) {\n      this.selectedIncident = alarm;\n      this.incidentLoading = true;\n      this.activeTab = 'incident';\n      \n      try {\n        const res = await fetch(`/api/alarms/incident/${alarm.id}`);\n        const data = await res.json();\n        if (data.success) {\n          this.incidentData = data.data;\n          this.$nextTick(() => this.renderChart());\n        }\n      } catch (e) { console.error(e); }\n      this.incidentLoading = false;\n    },\n    \n    renderChart() {\n      if (!this.incidentData?.measurements?.data) return;\n      if (this.chart) this.chart.destroy();\n      \n      const ctx = this.$refs.incidentChart?.getContext('2d');\n      if (!ctx) return;\n      \n      const measurements = this.incidentData.measurements;\n      const labels = measurements.data.map(d => new Date(d.timestamp).toLocaleTimeString('sv-SE'));\n      \n      const datasets = measurements.series.map(s => ({\n        label: s.name,\n        data: measurements.data.map(d => d[s.key]),\n        borderColor: s.color,\n        backgroundColor: s.color + '20',\n        fill: false,\n        tension: 0.3\n      }));\n      \n      // Chart.js needs to be loaded\n      if (typeof Chart !== 'undefined') {\n        this.chart = new Chart(ctx, {\n          type: 'line',\n          data: { labels, datasets },\n          options: {\n            responsive: true,\n            maintainAspectRatio: false,\n            scales: {\n              y: { grid: { color: 'rgba(255,255,255,0.1)' } },\n              x: { grid: { color: 'rgba(255,255,255,0.1)' } }\n            },\n            plugins: {\n              annotation: {\n                annotations: {\n                  alarmLine: {\n                    type: 'line',\n                    xMin: new Date(this.incidentData.alarm.timestamp).toLocaleTimeString('sv-SE'),\n                    xMax: new Date(this.incidentData.alarm.timestamp).toLocaleTimeString('sv-SE'),\n                    borderColor: '#F44336',\n                    borderWidth: 2,\n                    label: { content: 'Larm', enabled: true }\n                  }\n                }\n              }\n            }\n          }\n        });\n      }\n    },\n    \n    async addComment() {\n      if (!this.newComment || !this.selectedIncident) return;\n      this.commentLoading = true;\n      try {\n        await fetch(`/api/alarms/incident/${this.selectedIncident.id}/comment`, {\n          method: 'POST',\n          headers: { 'Content-Type': 'application/json' },\n          body: JSON.stringify({ comment: this.newComment, author: 'Användare' })\n        });\n        this.newComment = '';\n        this.openIncident(this.selectedIncident);\n      } catch (e) { console.error(e); }\n      this.commentLoading = false;\n    },\n    \n    async exportHistory() {\n      const params = new URLSearchParams();\n      if (this.historyFilters.start) params.append('start', this.historyFilters.start);\n      if (this.historyFilters.end) params.append('end', this.historyFilters.end);\n      window.open('/api/alarms/export?' + params, '_blank');\n    },\n    \n    async exportIncident(format) {\n      if (!this.selectedIncident) return;\n      window.open(`/api/alarms/incident/${this.selectedIncident.id}/export?format=${format}`, '_blank');\n    },\n    \n    // Service Mode\n    async refreshServiceMode() {\n      this.serviceLoading = true;\n      try {\n        const res = await fetch('/api/servicemode');\n        const data = await res.json();\n        if (data.success) {\n          this.serviceDevices = Object.values(data.data);\n        }\n      } catch (e) { console.error(e); }\n      this.serviceLoading = false;\n    },\n    \n    toggleServiceMode(device) {\n      if (device.serviceMode) {\n        // Show duration picker\n        this.serviceDurationPicker = device.deviceId;\n        device.serviceMode = false; // Reset until confirmed\n      } else {\n        this.disableServiceMode(device);\n      }\n    },\n    \n    async confirmServiceMode(device) {\n      this.serviceToggleLoading = device.deviceId;\n      try {\n        const body = {\n          deviceId: device.deviceId,\n          enabled: true,\n          duration: this.serviceDuration !== 'custom' ? this.serviceDuration : undefined,\n          endTime: this.serviceDuration === 'custom' ? this.customEndTime : undefined,\n          startedBy: 'Dashboard'\n        };\n        \n        await fetch('/api/servicemode/set', {\n          method: 'POST',\n          headers: { 'Content-Type': 'application/json' },\n          body: JSON.stringify(body)\n        });\n        \n        this.serviceDurationPicker = null;\n        this.refreshServiceMode();\n      } catch (e) { console.error(e); }\n      this.serviceToggleLoading = null;\n    },\n    \n    async disableServiceMode(device) {\n      this.serviceToggleLoading = device.deviceId;\n      try {\n        await fetch('/api/servicemode/set', {\n          method: 'POST',\n          headers: { 'Content-Type': 'application/json' },\n          body: JSON.stringify({\n            deviceId: device.deviceId,\n            enabled: false,\n            endedBy: 'Dashboard'\n          })\n        });\n        this.refreshServiceMode();\n      } catch (e) { console.error(e); }\n      this.serviceToggleLoading = null;\n    }\n  }\n}\n</script>\n\n<style scoped>\n.alarms-module {\n  padding: 16px;\n  font-family: 'Montserrat', sans-serif;\n}\n\n.tab-content {\n  padding: 20px 0;\n}\n\n.alarm-card {\n  background: rgba(0, 20, 40, 0.7) !important;\n  border-radius: 12px;\n  border-left: 4px solid transparent;\n  transition: all 0.3s ease;\n}\n\n.alarm-card.severity-critical { border-left-color: #F44336; }\n.alarm-card.severity-warning { border-left-color: #FFC107; }\n.alarm-card.severity-info { border-left-color: #2196F3; }\n\n.alarm-card:hover {\n  transform: translateX(4px);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);\n}\n\n.alarm-indicator {\n  width: 12px;\n  height: 12px;\n  border-radius: 50%;\n  margin-right: 16px;\n  animation: pulse 2s infinite;\n}\n\n.alarm-indicator.critical { background: #F44336; }\n.alarm-indicator.warning { background: #FFC107; }\n.alarm-indicator.info { background: #2196F3; }\n\n@keyframes pulse {\n  0%, 100% { opacity: 1; transform: scale(1); }\n  50% { opacity: 0.5; transform: scale(1.2); }\n}\n\n.alarm-time {\n  font-size: 12px;\n  color: rgba(255, 255, 255, 0.6);\n}\n\n.alarm-device {\n  font-weight: 600;\n  font-size: 14px;\n  color: #fff;\n}\n\n.alarm-message {\n  font-size: 13px;\n  color: rgba(255, 255, 255, 0.8);\n}\n\n.empty-state {\n  background: rgba(0, 20, 40, 0.5) !important;\n  border-radius: 12px;\n}\n\n.history-table {\n  background: rgba(0, 20, 40, 0.5) !important;\n  border-radius: 12px;\n}\n\n.incident-summary, .incident-chart {\n  background: rgba(0, 20, 40, 0.7) !important;\n  border-radius: 12px;\n  border: 1px solid rgba(27, 191, 255, 0.3);\n}\n\n.chart-container {\n  height: 300px;\n  position: relative;\n}\n\n.chart-legend {\n  display: flex;\n  gap: 16px;\n  margin-top: 12px;\n  flex-wrap: wrap;\n}\n\n.legend-item {\n  display: flex;\n  align-items: center;\n  font-size: 12px;\n}\n\n.legend-color {\n  width: 12px;\n  height: 12px;\n  border-radius: 2px;\n  margin-right: 6px;\n}\n\n.comment-item {\n  background: rgba(255, 255, 255, 0.05);\n  padding: 8px 12px;\n  border-radius: 8px;\n  margin-bottom: 8px;\n}\n\n.comment-meta {\n  font-size: 11px;\n  color: rgba(255, 255, 255, 0.5);\n  margin-bottom: 4px;\n}\n\n.comment-text {\n  font-size: 13px;\n}\n\n.service-device-card {\n  background: rgba(0, 20, 40, 0.7) !important;\n  border-radius: 12px;\n  border: 1px solid rgba(255, 255, 255, 0.1);\n  transition: all 0.3s ease;\n}\n\n.service-device-card.in-service {\n  border-color: #2196F3;\n  background: rgba(33, 150, 243, 0.1) !important;\n}\n\n.device-name {\n  font-weight: 600;\n  font-size: 14px;\n}\n\n.device-info {\n  font-size: 12px;\n  color: rgba(255, 255, 255, 0.6);\n}\n\n.service-info {\n  margin-top: 4px;\n  font-size: 12px;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 300,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "stats-main-component",
+        "type": "ui-template",
+        "z": "alarms-stats-flow",
+        "group": "stats-group-main",
+        "page": "",
+        "ui": "",
+        "name": "Statistik Modul",
+        "order": 1,
+        "width": "12",
+        "height": "20",
+        "head": "",
+        "format": "<template>\n  <div class=\"stats-module\">\n    <!-- Tabs -->\n    <v-tabs v-model=\"activeTab\" bg-color=\"transparent\" color=\"#1BBFFF\">\n      <v-tab value=\"system\">Systemstatistik</v-tab>\n      <v-tab value=\"temperatures\">Temperaturer</v-tab>\n      <v-tab value=\"modbus\">Kommunikation</v-tab>\n    </v-tabs>\n\n    <v-window v-model=\"activeTab\">\n      <!-- SYSTEMSTATISTIK -->\n      <v-window-item value=\"system\">\n        <div class=\"tab-content\">\n          <!-- Time Range -->\n          <v-btn-toggle v-model=\"systemRange\" mandatory class=\"mb-4\">\n            <v-btn value=\"1h\" size=\"small\">1 timme</v-btn>\n            <v-btn value=\"24h\" size=\"small\">24 timmar</v-btn>\n            <v-btn value=\"7d\" size=\"small\">7 dagar</v-btn>\n          </v-btn-toggle>\n\n          <v-row>\n            <!-- CPU -->\n            <v-col cols=\"12\" md=\"4\">\n              <v-card class=\"stat-card\">\n                <v-card-title>\n                  <v-icon class=\"mr-2\">mdi-chip</v-icon> CPU\n                </v-card-title>\n                <v-card-text>\n                  <div class=\"stat-value\">{{ systemStats?.current?.cpu?.usage || 0 }}%</div>\n                  <v-progress-linear :model-value=\"systemStats?.current?.cpu?.usage || 0\" height=\"8\" rounded :color=\"getCpuColor(systemStats?.current?.cpu?.usage)\"></v-progress-linear>\n                  <div class=\"stat-info\">{{ systemStats?.current?.cpu?.cores }} kärnor</div>\n                </v-card-text>\n              </v-card>\n            </v-col>\n\n            <!-- Memory -->\n            <v-col cols=\"12\" md=\"4\">\n              <v-card class=\"stat-card\">\n                <v-card-title>\n                  <v-icon class=\"mr-2\">mdi-memory</v-icon> Minne\n                </v-card-title>\n                <v-card-text>\n                  <div class=\"stat-value\">{{ systemStats?.current?.memory?.usedPercent || 0 }}%</div>\n                  <v-progress-linear :model-value=\"systemStats?.current?.memory?.usedPercent || 0\" height=\"8\" rounded color=\"info\"></v-progress-linear>\n                  <div class=\"stat-info\">{{ systemStats?.current?.memory?.used }} / {{ systemStats?.current?.memory?.total }} MB</div>\n                </v-card-text>\n              </v-card>\n            </v-col>\n\n            <!-- Disk -->\n            <v-col cols=\"12\" md=\"4\">\n              <v-card class=\"stat-card\">\n                <v-card-title>\n                  <v-icon class=\"mr-2\">mdi-harddisk</v-icon> Disk\n                </v-card-title>\n                <v-card-text>\n                  <div class=\"stat-value\">{{ systemStats?.current?.disk?.usedPercent || 0 }}%</div>\n                  <v-progress-linear :model-value=\"systemStats?.current?.disk?.usedPercent || 0\" height=\"8\" rounded :color=\"getDiskColor(systemStats?.current?.disk?.usedPercent)\"></v-progress-linear>\n                  <div class=\"stat-info\">{{ systemStats?.current?.disk?.used }} / {{ systemStats?.current?.disk?.total }}</div>\n                </v-card-text>\n              </v-card>\n            </v-col>\n\n            <!-- Temperature -->\n            <v-col cols=\"12\" md=\"4\">\n              <v-card class=\"stat-card\">\n                <v-card-title>\n                  <v-icon class=\"mr-2\">mdi-thermometer</v-icon> CPU Temperatur\n                </v-card-title>\n                <v-card-text>\n                  <div class=\"stat-value\" :class=\"getTempClass(systemStats?.current?.temperature?.celsius)\">\n                    {{ systemStats?.current?.temperature?.celsius || '-' }}°C\n                  </div>\n                  <v-progress-linear :model-value=\"systemStats?.current?.temperature?.celsius || 0\" :max=\"100\" height=\"8\" rounded :color=\"getTempColor(systemStats?.current?.temperature?.celsius)\"></v-progress-linear>\n                  <div class=\"stat-info\">{{ systemStats?.current?.temperature?.status }}</div>\n                </v-card-text>\n              </v-card>\n            </v-col>\n\n            <!-- Uptime -->\n            <v-col cols=\"12\" md=\"4\">\n              <v-card class=\"stat-card\">\n                <v-card-title>\n                  <v-icon class=\"mr-2\">mdi-clock-outline</v-icon> Uptime\n                </v-card-title>\n                <v-card-text>\n                  <div class=\"stat-value\">{{ systemStats?.current?.uptime?.formatted || '-' }}</div>\n                  <div class=\"stat-info\">{{ systemStats?.current?.uptime?.days }} dagar, {{ systemStats?.current?.uptime?.hours }} timmar</div>\n                </v-card-text>\n              </v-card>\n            </v-col>\n\n            <!-- Network -->\n            <v-col cols=\"12\" md=\"4\">\n              <v-card class=\"stat-card\">\n                <v-card-title>\n                  <v-icon class=\"mr-2\">mdi-lan</v-icon> Nätverk\n                </v-card-title>\n                <v-card-text>\n                  <div v-for=\"(iface, name) in systemStats?.current?.network\" :key=\"name\" class=\"network-iface\">\n                    <strong>{{ name }}</strong>\n                    <div class=\"network-stats\">\n                      <span>↓ {{ formatBytes(iface.rxBytes) }}</span>\n                      <span>↑ {{ formatBytes(iface.txBytes) }}</span>\n                    </div>\n                  </div>\n                </v-card-text>\n              </v-card>\n            </v-col>\n          </v-row>\n\n          <!-- History Chart -->\n          <v-card class=\"stat-card mt-4\">\n            <v-card-title>\n              <v-icon class=\"mr-2\">mdi-chart-timeline-variant</v-icon>\n              Historik ({{ systemRange }})\n            </v-card-title>\n            <v-card-text>\n              <div class=\"chart-container\">\n                <canvas ref=\"systemChart\"></canvas>\n              </div>\n            </v-card-text>\n          </v-card>\n\n          <v-btn color=\"primary\" class=\"mt-4\" @click=\"refreshSystemStats\" :loading=\"systemLoading\">\n            <v-icon left>mdi-refresh</v-icon> Uppdatera\n          </v-btn>\n        </div>\n      </v-window-item>\n\n      <!-- TEMPERATURER -->\n      <v-window-item value=\"temperatures\">\n        <div class=\"tab-content\">\n          <v-row class=\"mb-4\">\n            <v-col cols=\"12\" md=\"4\">\n              <v-select v-model=\"selectedDevice\" :items=\"temperatureDevices\" label=\"Välj enhet\" density=\"compact\" clearable></v-select>\n            </v-col>\n            <v-col cols=\"12\" md=\"4\">\n              <v-btn-toggle v-model=\"tempRange\" mandatory>\n                <v-btn value=\"1h\" size=\"small\">1h</v-btn>\n                <v-btn value=\"6h\" size=\"small\">6h</v-btn>\n                <v-btn value=\"24h\" size=\"small\">24h</v-btn>\n                <v-btn value=\"7d\" size=\"small\">7d</v-btn>\n              </v-btn-toggle>\n            </v-col>\n            <v-col cols=\"12\" md=\"4\">\n              <v-btn color=\"primary\" @click=\"refreshTemperatures\" :loading=\"tempLoading\">\n                <v-icon left>mdi-refresh</v-icon> Uppdatera\n              </v-btn>\n            </v-col>\n          </v-row>\n\n          <!-- Current Values -->\n          <v-row v-if=\"tempStats?.stats\">\n            <v-col cols=\"6\" md=\"3\" v-for=\"(stat, key) in tempStats.stats\" :key=\"key\">\n              <v-card class=\"temp-card\">\n                <v-card-text class=\"text-center\">\n                  <div class=\"temp-label\">{{ getTempLabel(key) }}</div>\n                  <div class=\"temp-current\">{{ stat.current?.toFixed(1) || '-' }}°C</div>\n                  <div class=\"temp-range\">\n                    <span class=\"min\">↓{{ stat.min?.toFixed(1) }}</span>\n                    <span class=\"max\">↑{{ stat.max?.toFixed(1) }}</span>\n                  </div>\n                  <div class=\"temp-avg\">Snitt: {{ stat.avg?.toFixed(1) }}°C</div>\n                </v-card-text>\n              </v-card>\n            </v-col>\n          </v-row>\n\n          <!-- Temperature Chart -->\n          <v-card class=\"stat-card mt-4\">\n            <v-card-title>\n              <v-icon class=\"mr-2\">mdi-thermometer-lines</v-icon>\n              Temperaturhistorik\n            </v-card-title>\n            <v-card-text>\n              <div class=\"chart-container\">\n                <canvas ref=\"tempChart\"></canvas>\n              </div>\n              <div class=\"chart-legend\" v-if=\"tempStats?.series\">\n                <span v-for=\"series in tempStats.series\" :key=\"series.key\" class=\"legend-item\">\n                  <span class=\"legend-color\" :style=\"{backgroundColor: series.color}\"></span>\n                  {{ series.name }}\n                </span>\n              </div>\n            </v-card-text>\n          </v-card>\n        </div>\n      </v-window-item>\n\n      <!-- MODBUS/KOMMUNIKATION -->\n      <v-window-item value=\"modbus\">\n        <div class=\"tab-content\">\n          <v-row>\n            <!-- Health Score -->\n            <v-col cols=\"12\" md=\"4\">\n              <v-card class=\"stat-card health-card\">\n                <v-card-text class=\"text-center\">\n                  <div class=\"health-score\" :class=\"getHealthClass(modbusStats?.healthScore)\">\n                    {{ modbusStats?.healthScore || 0 }}%\n                  </div>\n                  <div class=\"health-label\">Bus Health Score</div>\n                  <v-progress-linear :model-value=\"modbusStats?.healthScore || 0\" height=\"12\" rounded :color=\"getHealthColor(modbusStats?.healthScore)\"></v-progress-linear>\n                </v-card-text>\n              </v-card>\n            </v-col>\n\n            <!-- Error Summary -->\n            <v-col cols=\"12\" md=\"8\">\n              <v-card class=\"stat-card\">\n                <v-card-title>Fel senaste 24h</v-card-title>\n                <v-card-text>\n                  <v-row>\n                    <v-col cols=\"3\" class=\"text-center\">\n                      <div class=\"error-count\">{{ modbusStats?.errors?.timeout || 0 }}</div>\n                      <div class=\"error-label\">Timeout</div>\n                    </v-col>\n                    <v-col cols=\"3\" class=\"text-center\">\n                      <div class=\"error-count\">{{ modbusStats?.errors?.crc || 0 }}</div>\n                      <div class=\"error-label\">CRC</div>\n                    </v-col>\n                    <v-col cols=\"3\" class=\"text-center\">\n                      <div class=\"error-count\">{{ modbusStats?.errors?.collision || 0 }}</div>\n                      <div class=\"error-label\">Kollision</div>\n                    </v-col>\n                    <v-col cols=\"3\" class=\"text-center\">\n                      <div class=\"error-count\">{{ modbusStats?.errors?.retries || 0 }}</div>\n                      <div class=\"error-label\">Retries</div>\n                    </v-col>\n                  </v-row>\n                </v-card-text>\n              </v-card>\n            </v-col>\n\n            <!-- Top Problematic Devices -->\n            <v-col cols=\"12\" md=\"6\">\n              <v-card class=\"stat-card\">\n                <v-card-title>\n                  <v-icon class=\"mr-2\">mdi-alert-circle</v-icon>\n                  Enheter med flest problem\n                </v-card-title>\n                <v-card-text>\n                  <v-list density=\"compact\" class=\"bg-transparent\">\n                    <v-list-item v-for=\"device in problematicDevices\" :key=\"device.deviceId\">\n                      <template v-slot:prepend>\n                        <v-icon color=\"warning\">mdi-alert</v-icon>\n                      </template>\n                      <v-list-item-title>{{ device.deviceId }}</v-list-item-title>\n                      <v-list-item-subtitle>{{ device.total }} fel</v-list-item-subtitle>\n                      <template v-slot:append>\n                        <span class=\"text-caption\">{{ formatDateTime(device.lastError) }}</span>\n                      </template>\n                    </v-list-item>\n                    <v-list-item v-if=\"!problematicDevices?.length\">\n                      <v-list-item-title class=\"text-success\">Inga problemenheter</v-list-item-title>\n                    </v-list-item>\n                  </v-list>\n                </v-card-text>\n              </v-card>\n            </v-col>\n\n            <!-- Error History Chart -->\n            <v-col cols=\"12\" md=\"6\">\n              <v-card class=\"stat-card\">\n                <v-card-title>\n                  <v-icon class=\"mr-2\">mdi-chart-bar</v-icon>\n                  Fel per timme\n                </v-card-title>\n                <v-card-text>\n                  <div class=\"chart-container-small\">\n                    <canvas ref=\"modbusChart\"></canvas>\n                  </div>\n                </v-card-text>\n              </v-card>\n            </v-col>\n\n            <!-- Request Stats -->\n            <v-col cols=\"12\">\n              <v-card class=\"stat-card\">\n                <v-card-title>Kommunikationsstatistik</v-card-title>\n                <v-card-text>\n                  <v-row>\n                    <v-col cols=\"4\" class=\"text-center\">\n                      <div class=\"big-stat\">{{ modbusStats?.totalRequests || 0 }}</div>\n                      <div class=\"stat-label\">Totalt antal förfrågningar</div>\n                    </v-col>\n                    <v-col cols=\"4\" class=\"text-center\">\n                      <div class=\"big-stat text-success\">{{ modbusStats?.successfulRequests || 0 }}</div>\n                      <div class=\"stat-label\">Lyckade</div>\n                    </v-col>\n                    <v-col cols=\"4\" class=\"text-center\">\n                      <div class=\"big-stat text-error\">{{ (modbusStats?.totalRequests || 0) - (modbusStats?.successfulRequests || 0) }}</div>\n                      <div class=\"stat-label\">Misslyckade</div>\n                    </v-col>\n                  </v-row>\n                </v-card-text>\n              </v-card>\n            </v-col>\n          </v-row>\n\n          <v-row class=\"mt-4\">\n            <v-col>\n              <v-btn color=\"primary\" @click=\"refreshModbusStats\" :loading=\"modbusLoading\">\n                <v-icon left>mdi-refresh</v-icon> Uppdatera\n              </v-btn>\n              <v-btn color=\"warning\" variant=\"outlined\" class=\"ml-2\" @click=\"resetModbusStats\">\n                <v-icon left>mdi-restart</v-icon> Nollställ statistik\n              </v-btn>\n            </v-col>\n          </v-row>\n        </div>\n      </v-window-item>\n    </v-window>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return {\n      activeTab: 'system',\n      \n      // System\n      systemRange: '1h',\n      systemStats: null,\n      systemLoading: false,\n      systemChart: null,\n      \n      // Temperatures\n      tempRange: '24h',\n      selectedDevice: null,\n      temperatureDevices: [],\n      tempStats: null,\n      tempLoading: false,\n      tempChart: null,\n      \n      // Modbus\n      modbusStats: null,\n      problematicDevices: [],\n      modbusLoading: false,\n      modbusChart: null\n    }\n  },\n  \n  watch: {\n    systemRange() { this.refreshSystemStats(); },\n    tempRange() { this.refreshTemperatures(); },\n    selectedDevice() { this.refreshTemperatures(); }\n  },\n  \n  mounted() {\n    this.refreshSystemStats();\n    this.loadTemperatureDevices();\n    this.refreshModbusStats();\n    \n    this.autoRefresh = setInterval(() => {\n      if (this.activeTab === 'system') this.refreshSystemStats();\n      if (this.activeTab === 'modbus') this.refreshModbusStats();\n    }, 30000);\n  },\n  \n  beforeUnmount() {\n    if (this.autoRefresh) clearInterval(this.autoRefresh);\n    if (this.systemChart) this.systemChart.destroy();\n    if (this.tempChart) this.tempChart.destroy();\n    if (this.modbusChart) this.modbusChart.destroy();\n  },\n  \n  methods: {\n    async refreshSystemStats() {\n      this.systemLoading = true;\n      try {\n        const res = await fetch(`/api/stats/system?range=${this.systemRange}`);\n        const data = await res.json();\n        if (data.success) {\n          this.systemStats = data.data;\n          this.$nextTick(() => this.renderSystemChart());\n        }\n      } catch (e) { console.error(e); }\n      this.systemLoading = false;\n    },\n    \n    renderSystemChart() {\n      if (!this.systemStats?.history?.length) return;\n      if (this.systemChart) this.systemChart.destroy();\n      \n      const ctx = this.$refs.systemChart?.getContext('2d');\n      if (!ctx || typeof Chart === 'undefined') return;\n      \n      const history = this.systemStats.history;\n      const labels = history.map(h => new Date(h.timestamp).toLocaleTimeString('sv-SE'));\n      \n      this.systemChart = new Chart(ctx, {\n        type: 'line',\n        data: {\n          labels,\n          datasets: [\n            {\n              label: 'CPU %',\n              data: history.map(h => h.cpuUsage),\n              borderColor: '#1BBFFF',\n              tension: 0.3,\n              fill: false\n            },\n            {\n              label: 'RAM %',\n              data: history.map(h => h.memoryUsed),\n              borderColor: '#4CAF50',\n              tension: 0.3,\n              fill: false\n            },\n            {\n              label: 'Temp °C',\n              data: history.map(h => h.cpuTemp),\n              borderColor: '#F44336',\n              tension: 0.3,\n              fill: false,\n              yAxisID: 'y1'\n            }\n          ]\n        },\n        options: {\n          responsive: true,\n          maintainAspectRatio: false,\n          scales: {\n            y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.1)' } },\n            y1: { position: 'right', min: 0, max: 100, grid: { display: false } },\n            x: { grid: { color: 'rgba(255,255,255,0.1)' } }\n          }\n        }\n      });\n    },\n    \n    async loadTemperatureDevices() {\n      try {\n        const res = await fetch('/api/stats/temperatures');\n        const data = await res.json();\n        if (data.success) {\n          this.temperatureDevices = Object.keys(data.data).map(id => ({\n            title: id,\n            value: id\n          }));\n          if (this.temperatureDevices.length > 0) {\n            this.selectedDevice = this.temperatureDevices[0].value;\n          }\n        }\n      } catch (e) { console.error(e); }\n    },\n    \n    async refreshTemperatures() {\n      if (!this.selectedDevice) return;\n      this.tempLoading = true;\n      try {\n        const res = await fetch(`/api/stats/temperatures?device=${this.selectedDevice}&range=${this.tempRange}`);\n        const data = await res.json();\n        if (data.success) {\n          this.tempStats = data.data;\n          this.$nextTick(() => this.renderTempChart());\n        }\n      } catch (e) { console.error(e); }\n      this.tempLoading = false;\n    },\n    \n    renderTempChart() {\n      if (!this.tempStats?.data?.length) return;\n      if (this.tempChart) this.tempChart.destroy();\n      \n      const ctx = this.$refs.tempChart?.getContext('2d');\n      if (!ctx || typeof Chart === 'undefined') return;\n      \n      const data = this.tempStats.data;\n      const labels = data.map(d => new Date(d.timestamp).toLocaleTimeString('sv-SE'));\n      \n      const datasets = (this.tempStats.series || []).map(s => ({\n        label: s.name,\n        data: data.map(d => d[s.key]),\n        borderColor: s.color,\n        tension: 0.3,\n        fill: false\n      })).filter(ds => ds.data.some(v => v !== undefined));\n      \n      this.tempChart = new Chart(ctx, {\n        type: 'line',\n        data: { labels, datasets },\n        options: {\n          responsive: true,\n          maintainAspectRatio: false,\n          scales: {\n            y: { grid: { color: 'rgba(255,255,255,0.1)' } },\n            x: { grid: { color: 'rgba(255,255,255,0.1)' } }\n          }\n        }\n      });\n    },\n    \n    async refreshModbusStats() {\n      this.modbusLoading = true;\n      try {\n        const [statsRes, devicesRes] = await Promise.all([\n          fetch('/api/stats/modbus'),\n          fetch('/api/stats/modbus/problematic?limit=5')\n        ]);\n        \n        const statsData = await statsRes.json();\n        const devicesData = await devicesRes.json();\n        \n        if (statsData.success) {\n          this.modbusStats = statsData.data;\n          this.$nextTick(() => this.renderModbusChart());\n        }\n        if (devicesData.success) {\n          this.problematicDevices = devicesData.data;\n        }\n      } catch (e) { console.error(e); }\n      this.modbusLoading = false;\n    },\n    \n    renderModbusChart() {\n      if (!this.modbusStats?.errorsPerHour?.length) return;\n      if (this.modbusChart) this.modbusChart.destroy();\n      \n      const ctx = this.$refs.modbusChart?.getContext('2d');\n      if (!ctx || typeof Chart === 'undefined') return;\n      \n      const data = this.modbusStats.errorsPerHour.slice(-24);\n      const labels = data.map(d => d.hour.split('T')[1] || d.hour);\n      \n      this.modbusChart = new Chart(ctx, {\n        type: 'bar',\n        data: {\n          labels,\n          datasets: [{\n            label: 'Fel',\n            data: data.map(d => d.count),\n            backgroundColor: '#F44336'\n          }]\n        },\n        options: {\n          responsive: true,\n          maintainAspectRatio: false,\n          scales: {\n            y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' } },\n            x: { grid: { display: false } }\n          }\n        }\n      });\n    },\n    \n    async resetModbusStats() {\n      if (!confirm('Nollställa all Modbus-statistik?')) return;\n      try {\n        await fetch('/api/stats/modbus/reset', { method: 'POST' });\n        this.refreshModbusStats();\n      } catch (e) { console.error(e); }\n    },\n    \n    // Helpers\n    getCpuColor(usage) {\n      if (usage < 50) return 'success';\n      if (usage < 80) return 'warning';\n      return 'error';\n    },\n    \n    getDiskColor(usage) {\n      if (usage < 70) return 'success';\n      if (usage < 90) return 'warning';\n      return 'error';\n    },\n    \n    getTempColor(temp) {\n      if (!temp) return 'grey';\n      if (temp < 50) return 'success';\n      if (temp < 70) return 'warning';\n      return 'error';\n    },\n    \n    getTempClass(temp) {\n      if (!temp) return '';\n      if (temp < 50) return 'text-success';\n      if (temp < 70) return 'text-warning';\n      return 'text-error';\n    },\n    \n    getHealthColor(score) {\n      if (score >= 90) return 'success';\n      if (score >= 70) return 'warning';\n      return 'error';\n    },\n    \n    getHealthClass(score) {\n      if (score >= 90) return 'health-good';\n      if (score >= 70) return 'health-warn';\n      return 'health-bad';\n    },\n    \n    getTempLabel(key) {\n      const labels = {\n        roomTemp: 'Rumstemp',\n        returnTemp: 'Returtemp',\n        hotGasTemp: 'Hetgas',\n        suctionTemp: 'Sugtemp'\n      };\n      return labels[key] || key;\n    },\n    \n    formatBytes(bytes) {\n      if (!bytes) return '0 B';\n      const k = 1024;\n      const sizes = ['B', 'KB', 'MB', 'GB'];\n      const i = Math.floor(Math.log(bytes) / Math.log(k));\n      return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];\n    },\n    \n    formatDateTime(ts) {\n      if (!ts) return '-';\n      return new Date(ts).toLocaleString('sv-SE');\n    }\n  }\n}\n</script>\n\n<style scoped>\n.stats-module {\n  padding: 16px;\n  font-family: 'Montserrat', sans-serif;\n}\n\n.tab-content {\n  padding: 20px 0;\n}\n\n.stat-card {\n  background: rgba(0, 20, 40, 0.7) !important;\n  border-radius: 12px;\n  border: 1px solid rgba(27, 191, 255, 0.3);\n}\n\n.stat-value {\n  font-size: 32px;\n  font-weight: 700;\n  color: #1BBFFF;\n  margin-bottom: 8px;\n}\n\n.stat-info {\n  font-size: 12px;\n  color: rgba(255, 255, 255, 0.6);\n  margin-top: 8px;\n}\n\n.chart-container {\n  height: 300px;\n  position: relative;\n}\n\n.chart-container-small {\n  height: 200px;\n  position: relative;\n}\n\n.chart-legend {\n  display: flex;\n  gap: 16px;\n  margin-top: 12px;\n  flex-wrap: wrap;\n}\n\n.legend-item {\n  display: flex;\n  align-items: center;\n  font-size: 12px;\n}\n\n.legend-color {\n  width: 12px;\n  height: 12px;\n  border-radius: 2px;\n  margin-right: 6px;\n}\n\n.network-iface {\n  padding: 8px 0;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.1);\n}\n\n.network-iface:last-child {\n  border-bottom: none;\n}\n\n.network-stats {\n  display: flex;\n  gap: 16px;\n  font-size: 12px;\n  color: rgba(255, 255, 255, 0.7);\n}\n\n.temp-card {\n  background: rgba(0, 20, 40, 0.7) !important;\n  border-radius: 12px;\n  border: 1px solid rgba(27, 191, 255, 0.3);\n}\n\n.temp-label {\n  font-size: 12px;\n  color: rgba(255, 255, 255, 0.6);\n  margin-bottom: 4px;\n}\n\n.temp-current {\n  font-size: 28px;\n  font-weight: 700;\n  color: #1BBFFF;\n}\n\n.temp-range {\n  font-size: 11px;\n  margin-top: 8px;\n}\n\n.temp-range .min { color: #2196F3; }\n.temp-range .max { color: #F44336; margin-left: 12px; }\n\n.temp-avg {\n  font-size: 11px;\n  color: rgba(255, 255, 255, 0.5);\n  margin-top: 4px;\n}\n\n.health-card {\n  padding: 20px;\n}\n\n.health-score {\n  font-size: 64px;\n  font-weight: 800;\n  line-height: 1;\n}\n\n.health-score.health-good { color: #4CAF50; }\n.health-score.health-warn { color: #FFC107; }\n.health-score.health-bad { color: #F44336; }\n\n.health-label {\n  font-size: 14px;\n  color: rgba(255, 255, 255, 0.7);\n  margin: 12px 0;\n}\n\n.error-count {\n  font-size: 28px;\n  font-weight: 700;\n  color: #F44336;\n}\n\n.error-label {\n  font-size: 12px;\n  color: rgba(255, 255, 255, 0.6);\n}\n\n.big-stat {\n  font-size: 36px;\n  font-weight: 700;\n  color: #1BBFFF;\n}\n\n.stat-label {\n  font-size: 12px;\n  color: rgba(255, 255, 255, 0.6);\n  margin-top: 4px;\n}\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 300,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "alarms-stats-chartjs",
+        "type": "ui-template",
+        "z": "alarms-stats-flow",
+        "group": "",
+        "page": "",
+        "ui": "45086322eb4ebcac",
+        "name": "Chart.js Loader",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "<script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "site:head",
+        "className": "",
+        "x": 300,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "sidebar-update-alarms-stats",
+        "type": "ui-template",
+        "z": "alarms-stats-flow",
+        "group": "",
+        "page": "",
+        "ui": "45086322eb4ebcac",
+        "name": "Sidebar Update - Alarms & Stats",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "<script>\n// Uppdatera sidebar för att inkludera Larm och Statistik\n(function() {\n  function updateSidebarForAlarmsStats() {\n    const drawer = document.querySelector('.v-navigation-drawer__content');\n    if (!drawer || !drawer.dataset.customSidebar) return;\n    \n    // Hitta befintliga larm/statistik-länkar och uppdatera dem\n    const sidebar = drawer.querySelector('.custom-sidebar');\n    if (!sidebar) return;\n    \n    // Kolla om redan uppdaterad\n    if (sidebar.dataset.alarmsStatsUpdated) return;\n    sidebar.dataset.alarmsStatsUpdated = 'true';\n    \n    // Hitta statistik och larm items och lägg till onclick\n    const menuItems = sidebar.querySelectorAll('.sidebar-menu-item');\n    menuItems.forEach(item => {\n      if (item.textContent.includes('Statistik')) {\n        item.setAttribute('onclick', \"navigateTo('/statistics')\");\n      }\n      if (item.textContent.includes('Larm')) {\n        item.setAttribute('onclick', \"navigateTo('/alarms')\");\n      }\n    });\n  }\n  \n  // Kör efter sidebar injicerats\n  setInterval(updateSidebarForAlarmsStats, 2000);\n})();\n</script>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "site:head",
+        "className": "",
+        "x": 300,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "reflink-examples-flow",
+        "type": "tab",
+        "label": "📘 Reflink Examples",
+        "disabled": false,
+        "info": "Best practice exempel för Reflink Message Standard v1.0"
+    },
+    {
+        "id": "reflink-std-doc-bf862d4b",
+        "type": "comment",
+        "z": "reflink-examples-flow",
+        "name": "📚 REFLINK MESSAGE STANDARD v1.0",
+        "info": "# Reflink Message Standard v1.0\n\n## Obligatoriska fält\n\n| Fält | Typ | Beskrivning |\n|------|-----|-------------|\n| `msg.action` | string | Vad ska hända? t.ex. `showControllers`, `refresh` |\n| `msg.group` | string | Vilken kategori? t.ex. `Controllers`, `Alarms` |\n\n## Giltiga actions\n\n### Controllers\n- `showControllers` - Visa alla regulatorer\n- `showKylar` - Visa endast kylar (setpoint >= 0)\n- `showFrysar` - Visa endast frysar (setpoint < 0)\n- `setSetpoint` - Ändra börvärde\n- `togglePower` - Slå på/av\n\n### Machines\n- `showMachines` - Visa alla maskiner\n- `showMachineGauges` - Visa maskin-gauges\n\n### Alarms\n- `showAlarms` - Visa aktiva larm\n- `showAlarmSummary` - Visa larmsammanfattning\n- `latestAlarms` - Visa senaste larm\n- `acknowledgeAlarm` - Kvittera larm\n\n### System\n- `refresh` - Uppdatera data\n- `navigate` - Navigera till sida\n- `exportBackup` - Exportera backup\n\n## Exempel\n\n```javascript\n// I inject-nod:\nmsg.action = 'showControllers';\nmsg.group = 'Controllers';\n\n// I function-nod (Safe Header):\nmsg.action = msg.action || 'showControllers';\nmsg.group = msg.group || 'Controllers';\n```\n\n## Best Practices\n\n1. **Alltid Safe Header** - Första raderna i varje function-nod\n2. **Explicit action/group** - Sätt alltid båda, även om du tror de är satta\n3. **Fallback-värden** - Använd `||` för säkra defaults\n4. **Status-uppdatering** - Visa action och group i node.status()\n",
+        "x": 100,
+        "y": 50,
+        "wires": []
+    },
+    {
+        "id": "safe-handler-721fee8c",
+        "type": "function",
+        "z": "reflink-examples-flow",
+        "name": "🛡️ Universal Safe Handler",
+        "func": "// ═══════════════════════════════════════════════════════════════════════════\n// UNIVERSAL SAFE HANDLER - Reflink Message Standard v1.0\n// ═══════════════════════════════════════════════════════════════════════════\n// Garanterar att msg.action och msg.group alltid är satta\n// Skyddar mot null/undefined och TypeError\n\n// 🛡️ VALIDATE INCOMING MESSAGE\nmsg = msg || {};\n\n// 🎯 ACTION - Vad ska hända? (required)\n// Giltiga värden: showControllers, showMachines, showAlarms, showNodes,\n//                 showKylar, showFrysar, refresh, navigate, update, delete\nif (!msg.action || typeof msg.action !== 'string') {\n    // Försök härled från topic eller payload\n    if (msg.topic && typeof msg.topic === 'string') {\n        msg.action = msg.topic;\n    } else if (msg.payload && typeof msg.payload === 'object' && msg.payload.action) {\n        msg.action = msg.payload.action;\n    } else {\n        msg.action = 'unknown';\n        node.warn('⚠️ msg.action saknas - satt till \"unknown\"');\n    }\n}\n\n// 📦 GROUP - Vilken kategori? (required)\n// Giltiga värden: Controllers, Kylar, Frysar, Machines, Alarms, Nodes, System\nif (!msg.group || typeof msg.group !== 'string') {\n    // Försök härled från action eller topic\n    const actionToGroup = {\n        'showControllers': 'Controllers',\n        'showKylar': 'Kylar',\n        'showFrysar': 'Frysar',\n        'showMachines': 'Machines',\n        'showAlarms': 'Alarms',\n        'showNodes': 'Nodes',\n        'showMachineGauges': 'Machines',\n        'alarmSummary': 'Alarms',\n        'latestAlarms': 'Alarms',\n        'createAlarms': 'Alarms',\n        'refresh': 'System',\n        'navigate': 'System'\n    };\n    \n    msg.group = actionToGroup[msg.action] || 'Unknown';\n    \n    if (msg.group === 'Unknown') {\n        node.warn('⚠️ msg.group kunde inte härledas - satt till \"Unknown\"');\n    }\n}\n\n// 📊 METADATA - Lägg till timestamp och source om saknas\nmsg._meta = msg._meta || {};\nmsg._meta.timestamp = msg._meta.timestamp || new Date().toISOString();\nmsg._meta.handler = 'UniversalSafeHandler';\nmsg._meta.version = '1.0';\n\n// 🔒 SANITIZE payload - Garantera att payload existerar\nif (msg.payload === null || msg.payload === undefined) {\n    msg.payload = {};\n}\n\n// Status för debugging\nnode.status({ \n    fill: 'green', \n    shape: 'dot', \n    text: `${msg.action} → ${msg.group}` \n});\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 100,
+        "y": 150,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "action-router-dcb6870c",
+        "type": "switch",
+        "z": "reflink-examples-flow",
+        "name": "🔀 Action Router",
+        "property": "action",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "showControllers",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "showKylar",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "showFrysar",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "showMachines",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "showAlarms",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "showNodes",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "refresh",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "navigate",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 9,
+        "x": 350,
+        "y": 150,
+        "wires": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "bp-controllers-7882396e",
+        "type": "function",
+        "z": "reflink-examples-flow",
+        "name": "📘 Best Practice: Controllers",
+        "func": "// ═══════════════════════════════════════════════════════════════════════════\n// BEST PRACTICE: Controllers Handler\n// ═══════════════════════════════════════════════════════════════════════════\n// Visar hur man använder msg.action/msg.group konsekvent\n\n// 🛡️ SAFE HEADER - Alltid först i varje function-nod\nmsg.action = msg.action || 'showControllers';\nmsg.group = msg.group || 'Controllers';\n\n// 📦 Hämta data från global context (med fallback)\nconst controllers = global.get('reflink.regulators') || [];\n\n// 🔄 Filtrera baserat på action\nlet result = [];\nswitch (msg.action) {\n    case 'showKylar':\n        result = controllers.filter(c => {\n            const sp = parseFloat((c.setpoint || '0').toString().replace(/[^0-9.-]/g, ''));\n            return !isNaN(sp) && sp >= 0;\n        });\n        msg.group = 'Kylar';\n        break;\n        \n    case 'showFrysar':\n        result = controllers.filter(c => {\n            const sp = parseFloat((c.setpoint || '0').toString().replace(/[^0-9.-]/g, ''));\n            return !isNaN(sp) && sp < 0;\n        });\n        msg.group = 'Frysar';\n        break;\n        \n    case 'showControllers':\n    default:\n        result = controllers;\n        break;\n}\n\n// 📊 Bygg response\nmsg.controllers = result;\nmsg.payload = result;\nmsg.count = result.length;\n\n// 📈 Status för debugging\nnode.status({ \n    fill: result.length > 0 ? 'green' : 'yellow', \n    shape: 'dot', \n    text: `${msg.action}: ${result.length} st` \n});\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 100,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bp-machines-becb0044",
+        "type": "function",
+        "z": "reflink-examples-flow",
+        "name": "📘 Best Practice: Machines",
+        "func": "// ═══════════════════════════════════════════════════════════════════════════\n// BEST PRACTICE: Machines Handler\n// ═══════════════════════════════════════════════════════════════════════════\n\n// 🛡️ SAFE HEADER\nmsg.action = msg.action || 'showMachines';\nmsg.group = msg.group || 'Machines';\n\n// 📦 Hämta data\nconst maxHz = 70;\nconst machines = (global.get('reflink.machines') || []).map(m => ({\n    ...m,\n    freqHz: ((m.capacityPercent || 0) / 100 * maxHz).toFixed(1) + ' Hz',\n    status: m.capacityPercent > 80 ? 'high' : (m.capacityPercent > 50 ? 'normal' : 'low')\n}));\n\n// 📊 Bygg response med konsekvent struktur\nmsg.machines = machines;\nmsg.payload = machines;\nmsg.count = machines.length;\n\n// 📈 Status\nnode.status({ \n    fill: 'green', \n    shape: 'dot', \n    text: `${machines.length} maskiner` \n});\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 100,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bp-alarms-6d130a51",
+        "type": "function",
+        "z": "reflink-examples-flow",
+        "name": "📘 Best Practice: Alarms",
+        "func": "// ═══════════════════════════════════════════════════════════════════════════\n// BEST PRACTICE: Alarms Handler\n// ═══════════════════════════════════════════════════════════════════════════\n\n// 🛡️ SAFE HEADER\nmsg.action = msg.action || 'showAlarms';\nmsg.group = msg.group || 'Alarms';\n\n// 📦 Hämta larm från global context\nconst reflink = global.get('reflink') || {};\nconst alarms = reflink.alarms || { \n    active: [], \n    summary: { total: 0, critical: 0, warning: 0, info: 0 },\n    history: []\n};\n\n// 🔄 Hantera olika actions\nlet result;\nswitch (msg.action) {\n    case 'showAlarmSummary':\n    case 'alarmSummary':\n        const s = alarms.summary;\n        result = s.total === 0 \n            ? '✅ Inga aktiva larm'\n            : `⚠️ ${s.total} larm • ${s.critical} kritiska • ${s.warning} varningar`;\n        msg.payload = result;\n        break;\n        \n    case 'latestAlarms':\n        const sorted = [...alarms.active].sort((a, b) => \n            new Date(b.timestamp) - new Date(a.timestamp)\n        );\n        result = sorted.slice(0, 5);\n        msg.payload = result;\n        break;\n        \n    case 'showAlarms':\n    default:\n        result = alarms.active;\n        msg.payload = result;\n        break;\n}\n\nmsg.alarms = alarms.active;\nmsg.alarmsSummary = alarms.summary;\nmsg.count = alarms.active.length;\n\n// 📈 Status baserad på allvarlighetsgrad\nconst fill = alarms.summary.critical > 0 ? 'red' : \n             (alarms.summary.warning > 0 ? 'yellow' : 'green');\nnode.status({ fill, shape: 'dot', text: `${alarms.active.length} larm` });\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 100,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "inject-controllers-3f600711",
+        "type": "inject",
+        "z": "reflink-examples-flow",
+        "name": "Show Controllers",
+        "props": [
+            {
+                "p": "action",
+                "v": "showControllers",
+                "vt": "str"
+            },
+            {
+                "p": "group",
+                "v": "Controllers",
+                "vt": "str"
+            },
+            {
+                "p": "payload",
+                "v": "",
+                "vt": "date"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "inject-machines-a88e741d",
+        "type": "inject",
+        "z": "reflink-examples-flow",
+        "name": "Show Machines",
+        "props": [
+            {
+                "p": "action",
+                "v": "showMachines",
+                "vt": "str"
+            },
+            {
+                "p": "group",
+                "v": "Machines",
+                "vt": "str"
+            },
+            {
+                "p": "payload",
+                "v": "",
+                "vt": "date"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 550,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "inject-alarms-2d43f4f2",
+        "type": "inject",
+        "z": "reflink-examples-flow",
+        "name": "Show Alarms",
+        "props": [
+            {
+                "p": "action",
+                "v": "showAlarms",
+                "vt": "str"
+            },
+            {
+                "p": "group",
+                "v": "Alarms",
+                "vt": "str"
+            },
+            {
+                "p": "payload",
+                "v": "",
+                "vt": "date"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    }
+]
