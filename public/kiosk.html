@@ -11,6 +11,15 @@
       padding: 0;
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    
+    /* Force touch events */
+    button, a, .menu-item {
+      cursor: pointer;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
     }
     
     html, body {
@@ -197,24 +206,23 @@
         });
       }
       
-      // Add click handlers to menu items
+      // Add click/touch handlers to menu items
       menuItems.forEach(item => {
-        item.addEventListener('click', function(e) {
+        // Use pointerdown for immediate response on touch
+        function handleInteraction(e) {
           e.preventDefault();
-          const page = this.dataset.page;
+          e.stopPropagation();
+          const page = item.dataset.page;
           if (page) {
+            // Visual feedback
+            item.style.background = 'rgba(255,255,255,0.3)';
+            setTimeout(() => item.style.background = '', 150);
             navigateTo(page);
           }
-        });
+        }
         
-        // Touch support
-        item.addEventListener('touchend', function(e) {
-          e.preventDefault();
-          const page = this.dataset.page;
-          if (page) {
-            navigateTo(page);
-          }
-        });
+        item.addEventListener('pointerdown', handleInteraction);
+        item.addEventListener('click', handleInteraction);
       });
       
       // Handle hash changes (back/forward)

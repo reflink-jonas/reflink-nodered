@@ -19,11 +19,13 @@ if [ -f /home/jonas/intro.mp4 ]; then
   mpv --fullscreen --no-terminal --really-quiet /home/jonas/intro.mp4 2>/dev/null || true
 fi
 
-# Starta Chromium i kiosk-läge
+# Starta Chromium i kiosk-läge med full touch-support
 chromium --kiosk --no-first-run --password-store=basic \
   --disable-features=PasswordManager \
   --disable-session-crashed-bubble --noerrdialogs --disable-infobars \
-  --ozone-platform=wayland --touch-events=enabled \
+  --enable-features=TouchpadAndWheelScrollLatching,TouchDragAndContextMenu \
+  --enable-touch-drag-drop --touch-events=enabled \
+  --enable-viewport --force-device-scale-factor=1 \
   http://localhost:1880/kiosk.html &
 SCRIPT
 chmod +x /home/jonas/start-reflink-kiosk.sh
