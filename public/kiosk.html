@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Reflink OS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Montserrat', sans-serif;
+      background: #018ace;
+    }
+    
+    .kiosk-container {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+    }
+    
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 240px;
+      min-width: 240px;
+      height: 100vh;
+      background: linear-gradient(180deg, rgba(27, 191, 255, 0.85) 0%, rgba(24, 172, 236, 0.90) 100%);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden;
+      z-index: 100;
+    }
+    
+    .sidebar-logo {
+      padding: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .sidebar-logo img {
+      max-width: 100%;
+      height: auto;
+      max-height: 60px;
+    }
+    
+    .menu-section {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(255, 255, 255, 0.7);
+      padding: 18px 18px 8px;
+      margin-top: 8px;
+    }
+    
+    .menu-section:first-of-type {
+      margin-top: 0;
+    }
+    
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 14px 18px;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      border: none;
+      background: transparent;
+      width: 100%;
+      text-align: left;
+      touch-action: manipulation;
+    }
+    
+    .menu-item:hover,
+    .menu-item:active {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    
+    .menu-item.active {
+      background: rgba(255, 255, 255, 0.25);
+      border-left: 3px solid #ffffff;
+    }
+    
+    .menu-icon {
+      width: 24px;
+      margin-right: 12px;
+      font-size: 18px;
+      text-align: center;
+    }
+    
+    /* ===== MAIN CONTENT (IFRAME) ===== */
+    .main-content {
+      flex: 1;
+      height: 100vh;
+      overflow: hidden;
+    }
+    
+    .main-content iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    /* ===== HIDE DASHBOARD SIDEBAR IN IFRAME ===== */
+    /* This is injected into iframe via postMessage */
+  </style>
+</head>
+<body>
+  <div class="kiosk-container">
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+      <div class="sidebar-logo">
+        <img src="/banner.png" alt="Reflink" onerror="this.parentElement.innerHTML='<span style=\'color:#fff;font-size:20px;font-weight:700;letter-spacing:3px;\'>REFLINK</span>'">
+      </div>
+      
+      <div class="menu-section">Anläggning</div>
+      <button class="menu-item" data-page="/2">
+        <span class="menu-icon">📊</span> Refboard
+      </button>
+      <button class="menu-item" data-page="/page1">
+        <span class="menu-icon">🎛️</span> Kontrollrum
+      </button>
+      <button class="menu-item" data-page="/overview">
+        <span class="menu-icon">🏠</span> Verktyg
+      </button>
+      
+      <div class="menu-section">Noder</div>
+      <button class="menu-item" data-page="/scan">
+        <span class="menu-icon">📡</span> Scanna
+      </button>
+      <button class="menu-item" data-page="/addresses">
+        <span class="menu-icon">📍</span> Adresser
+      </button>
+      <button class="menu-item" data-page="/logging">
+        <span class="menu-icon">📝</span> Loggning
+      </button>
+      <button class="menu-item" data-page="/config">
+        <span class="menu-icon">⚙️</span> Konfiguration
+      </button>
+      
+      <div class="menu-section">System</div>
+      <button class="menu-item" data-page="/network">
+        <span class="menu-icon">🌐</span> Nätverk
+      </button>
+      <button class="menu-item" data-page="/statistics">
+        <span class="menu-icon">📈</span> Statistik
+      </button>
+      <button class="menu-item" data-page="/alarms">
+        <span class="menu-icon">🔔</span> Larm
+      </button>
+    </nav>
+    
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <iframe id="dashboard-frame" src="/dashboard/2?kiosk=1"></iframe>
+    </main>
+  </div>
+  
+  <script>
+    (function() {
+      const frame = document.getElementById('dashboard-frame');
+      const menuItems = document.querySelectorAll('.menu-item');
+      
+      // Get initial page from URL hash or default to /2
+      const initialPage = window.location.hash.slice(1) || '/2';
+      
+      // Navigate to a page
+      function navigateTo(page) {
+        // Update iframe src
+        frame.src = '/dashboard' + page + '?kiosk=1';
+        
+        // Update URL hash
+        window.location.hash = page;
+        
+        // Update active state
+        menuItems.forEach(item => {
+          item.classList.remove('active');
+          if (item.dataset.page === page) {
+            item.classList.add('active');
+          }
+        });
+      }
+      
+      // Add click handlers to menu items
+      menuItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+          e.preventDefault();
+          const page = this.dataset.page;
+          if (page) {
+            navigateTo(page);
+          }
+        });
+        
+        // Touch support
+        item.addEventListener('touchend', function(e) {
+          e.preventDefault();
+          const page = this.dataset.page;
+          if (page) {
+            navigateTo(page);
+          }
+        });
+      });
+      
+      // Handle hash changes (back/forward)
+      window.addEventListener('hashchange', function() {
+        const page = window.location.hash.slice(1);
+        if (page) {
+          navigateTo(page);
+        }
+      });
+      
+      // Set initial active state
+      menuItems.forEach(item => {
+        if (item.dataset.page === initialPage) {
+          item.classList.add('active');
+        }
+      });
+      
+      // If initial page is not default, navigate to it
+      if (initialPage !== '/2') {
+        navigateTo(initialPage);
+      } else {
+        // Highlight Refboard as active
+        menuItems.forEach(item => {
+          if (item.dataset.page === '/2') {
+            item.classList.add('active');
+          }
+        });
+      }
+      
+      // Inject CSS into iframe to hide its sidebar
+      frame.addEventListener('load', function() {
+        try {
+          const iframeDoc = frame.contentDocument || frame.contentWindow.document;
+          const style = iframeDoc.createElement('style');
+          style.textContent = `
+            /* Hide dashboard sidebar when in kiosk mode */
+            .v-navigation-drawer,
+            .v-navigation-drawer__content,
+            [class*="navigation-drawer"] {
+              display: none !important;
+              width: 0 !important;
+            }
+            
+            /* Adjust main content to fill space */
+            .v-main {
+              padding-left: 0 !important;
+            }
+            
+            /* Hide hamburger menu */
+            .v-app-bar__nav-icon,
+            button[aria-label="Menu"],
+            button[aria-label="menu"] {
+              display: none !important;
+            }
+          `;
+          iframeDoc.head.appendChild(style);
+        } catch (e) {
+          console.log('Could not inject styles into iframe (cross-origin):', e);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
+
