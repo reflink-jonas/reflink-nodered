@@ -1,0 +1,18 @@
+controller,param_name,description,register,fc,datatype,scale,unit,tag,rw
+AK-PC-781,suction_pressure,Sugtryck,30001,4,int16,0.1,bar,SUC_P,r
+AK-PC-781,discharge_pressure,Hetgastryck,30002,4,int16,0.1,bar,DISCH_P,r
+AK-PC-781,evap_temp_1,Förångare temp S1,30003,4,int16,0.1,°C,EVAP1_T,r
+AK-PC-781,evap_temp_2,Förångare temp S2,30004,4,int16,0.1,°C,EVAP2_T,r
+AK-PC-781,room_temp,Rumstemperatur,30005,4,int16,0.1,°C,ROOM_T,r
+AK-PC-781,superheat,Överhettning,30006,4,int16,0.1,K,SH,r
+AK-PC-781,setpoint,Börvärde temperatur,40001,3,int16,0.1,°C,SP,rw
+AK-PC-781,defrost_interval,Avfrostningsintervall,40002,3,uint16,1,min,DEF_INT,rw
+AK-PC-781,defrost_duration,Avfrostningstid,40003,3,uint16,1,min,DEF_DUR,rw
+AK-PC-781,alarm_high_temp,Larmgräns hög temp,40004,3,int16,0.1,°C,ALM_HI,rw
+AK-PC-781,alarm_low_temp,Larmgräns låg temp,40005,3,int16,0.1,°C,ALM_LO,rw
+AK-PC-781,compressor_status,Kompressor status,10001,2,bool,1,,COMP_ON,r
+AK-PC-781,defrost_active,Avfrostning aktiv,10002,2,bool,1,,DEF_ON,r
+AK-PC-781,door_open,Dörr öppen,10003,2,bool,1,,DOOR,r
+AK-PC-781,alarm_active,Larm aktivt,10004,2,bool,1,,ALARM,r
+AK-PC-781,fan_status,Fläkt status,10005,2,bool,1,,FAN_ON,r
+

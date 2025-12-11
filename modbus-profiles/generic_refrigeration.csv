@@ -1,0 +1,7 @@
+controller,param_name,description,register,fc,datatype,scale,unit,tag,rw
+GENERIC,room_temp,Rumstemperatur,30001,4,int16,0.1,°C,ROOM_T,r
+GENERIC,evap_temp,Förångartemperatur,30002,4,int16,0.1,°C,EVAP_T,r
+GENERIC,setpoint,Börvärde,40001,3,int16,0.1,°C,SP,rw
+GENERIC,compressor,Kompressor,10001,2,bool,1,,COMP,r
+GENERIC,alarm,Larm,10002,2,bool,1,,ALM,r
+

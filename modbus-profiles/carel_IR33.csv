@@ -1,0 +1,21 @@
+controller,param_name,description,register,fc,datatype,scale,unit,tag,rw
+IR33,probe_1,Givare 1 (rum),30001,4,int16,0.1,°C,PB1,r
+IR33,probe_2,Givare 2 (förångare),30002,4,int16,0.1,°C,PB2,r
+IR33,probe_3,Givare 3 (avfrostning),30003,4,int16,0.1,°C,PB3,r
+IR33,probe_4,Givare 4 (extra),30004,4,int16,0.1,°C,PB4,r
+IR33,setpoint_value,Aktuellt börvärde,30010,4,int16,0.1,°C,SET,r
+IR33,output_percent,Utgång procent,30011,4,uint16,1,%,OUT_PCT,r
+IR33,setpoint,Börvärde,40001,3,int16,0.1,°C,SP,rw
+IR33,differential,Differential,40002,3,int16,0.1,K,DIFF,rw
+IR33,alarm_high,Larm högt,40003,3,int16,0.1,°C,ALH,rw
+IR33,alarm_low,Larm lågt,40004,3,int16,0.1,°C,ALL,rw
+IR33,defrost_type,Avfrostningstyp,40010,3,uint16,1,,DEF_TYP,rw
+IR33,defrost_interval,Avfrostningsintervall,40011,3,uint16,1,h,DEF_INT,rw
+IR33,defrost_endtemp,Avfrostning sluttemp,40012,3,int16,0.1,°C,DEF_END,rw
+IR33,defrost_maxtime,Avfrostning max tid,40013,3,uint16,1,min,DEF_MAX,rw
+IR33,compressor_on,Kompressor på,10001,2,bool,1,,COMP,r
+IR33,defrost_on,Avfrostning aktiv,10002,2,bool,1,,DEF,r
+IR33,fan_on,Fläkt på,10003,2,bool,1,,FAN,r
+IR33,alarm_on,Larm aktivt,10004,2,bool,1,,ALM,r
+IR33,door_switch,Dörrkontakt,10005,2,bool,1,,DOOR,r
+

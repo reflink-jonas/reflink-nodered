@@ -1,0 +1,21 @@
+controller,param_name,description,register,fc,datatype,scale,unit,tag,rw
+IDPlus,temperature,Rumstemperatur,30001,4,int16,0.1,°C,TEMP,r
+IDPlus,evaporator_temp,Förångartemperatur,30002,4,int16,0.1,°C,EVAP_T,r
+IDPlus,condenser_temp,Kondensortemperatur,30003,4,int16,0.1,°C,COND_T,r
+IDPlus,setpoint_active,Aktivt börvärde,30010,4,int16,0.1,°C,SP_ACT,r
+IDPlus,setpoint,Börvärde,40001,3,int16,0.1,°C,SP,rw
+IDPlus,hysteresis,Hysteres,40002,3,int16,0.1,K,HYS,rw
+IDPlus,min_on_time,Min on-tid kompressor,40003,3,uint16,1,s,MIN_ON,rw
+IDPlus,min_off_time,Min off-tid kompressor,40004,3,uint16,1,s,MIN_OFF,rw
+IDPlus,alarm_delay,Larmfördröjning,40005,3,uint16,1,min,ALM_DLY,rw
+IDPlus,high_alarm,Höglarm gräns,40006,3,int16,0.1,°C,HI_ALM,rw
+IDPlus,low_alarm,Låglarm gräns,40007,3,int16,0.1,°C,LO_ALM,rw
+IDPlus,defrost_interval,Avfrostningsintervall,40010,3,uint16,1,h,DEF_INT,rw
+IDPlus,defrost_duration,Avfrostningstid,40011,3,uint16,1,min,DEF_DUR,rw
+IDPlus,compressor,Kompressor status,10001,2,bool,1,,COMP,r
+IDPlus,defrost,Avfrostning aktiv,10002,2,bool,1,,DEF,r
+IDPlus,evap_fan,Förångarfläkt,10003,2,bool,1,,EVAP_FAN,r
+IDPlus,alarm_relay,Larmrelä,10004,2,bool,1,,ALM_REL,r
+IDPlus,light,Belysning,10005,2,bool,1,,LIGHT,r
+IDPlus,aux_relay,Hjälprelä,10006,2,bool,1,,AUX,r
+
